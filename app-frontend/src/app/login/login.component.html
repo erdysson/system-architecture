@@ -3,14 +3,14 @@
     <div class="p-d-flex p-fluid p-formgrid p-grid">
       <div class="p-field p-col-12">
         <label for="userName">User Name</label>
-        <input id="userName" type="text" pInputText>
+        <input id="userName" type="text" pInputText [(ngModel)]="userName">
       </div>
       <div class="p-field p-col-12">
         <label for="password">Password</label>
-        <input id="password" type="password" pInputText>
+        <input id="password" type="password" pInputText [(ngModel)]="password">
       </div>
       <div class="p-col-12">
-        <button pButton pRipple type="button" label="Login" class="submit-btn"></button>
+        <button pButton pRipple type="button" label="Login" class="submit-btn" (click)="login()"></button>
       </div>
     </div>
   </div>
