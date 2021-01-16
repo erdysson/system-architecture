@@ -10,7 +10,7 @@ import {EMPTY} from 'rxjs';
 @Injectable()
 export class UserEffects {
 
-  private readonly apiBase: string = 'http://localhost:3000/api/users';
+  private readonly apiBase: string = 'https://localhost:3000/api/users';
 
   constructor(
     private readonly actions$: Actions,

@@ -12,7 +12,7 @@ import {IRefreshTokenResponse} from '../../../../../app/dist/interfaces/auth.int
 @Injectable()
 export class AuthService {
 
-  private readonly apiBase: string = 'http://localhost:3000/auth';
+  private readonly apiBase: string = 'https://localhost:3000/auth';
 
   private readonly accessTokenStorageKey: string = 'auth:accessToken';
   private readonly refreshTokenStorageKey: string = 'auth:refreshToken';
