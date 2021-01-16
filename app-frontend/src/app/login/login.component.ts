@@ -1,16 +1,16 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {AuthService} from '../store/services/auth.service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {Router} from '@angular/router';
-import {IAuthState} from '../store/interfaces';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnDestroy {
 
   public userName: string = '';
 
@@ -20,24 +20,19 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private readonly AuthService: AuthService
+    private readonly authService: AuthService
   ) {
     //
   }
 
   public login(): void {
-    this.AuthService.logIn({userName: this.userName, password: this.password})
-  }
-
-  ngOnInit() {
-    this.AuthService.authState$.pipe(
+    this.authService.logIn({userName: this.userName, password: this.password}).pipe(
       takeUntil(this.destroy$)
-    ).subscribe((state: IAuthState) => {
-      if (state.isLoggedIn) {
-        this.router.navigate(['/dashboard']);
-      }
-      // todo : check other fields in state
-    })
+    ).subscribe(() => {
+      this.router.navigate(['/']);
+    }, (errorResponse: HttpErrorResponse) => {
+      console.log('error while login', errorResponse.error);
+    });
   }
 
   ngOnDestroy() {

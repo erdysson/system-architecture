@@ -1,11 +1,16 @@
 import {NgModule} from '@angular/core';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
-import {effects, reducers} from './effects';
-import {HttpClientModule} from '@angular/common/http';
+import {effects, reducers} from './index';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {LocalStorageService} from './services/local-storage.service';
-import {AuthEffects} from './effects/auth.effects';
 import {AuthService} from './services/auth.service';
+import {AuthInterceptor} from './interceptors/auth.interceptor';
+import {UserService} from './services/user.service';
+import {UserEffects} from './effects/user.effects';
+import {TokenService} from './services/token.service';
+import {AuthGuard} from './guards/auth.guard';
+import {LoginGuard} from './guards/login.guard';
 
 @NgModule({
   imports: [
@@ -21,9 +26,18 @@ import {AuthService} from './services/auth.service';
     EffectsModule.forRoot(effects),
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
     LocalStorageService,
+    TokenService,
     AuthService,
-    AuthEffects
+    UserEffects,
+    UserService,
+    AuthGuard,
+    LoginGuard
   ]
 })
 export class AppStoreModule {}

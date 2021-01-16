@@ -1,22 +1,20 @@
 import {Injectable} from '@angular/core';
-import {ILoginSuccessPayload} from '../interfaces';
 
 @Injectable()
 export class LocalStorageService {
 
-  private readonly storageKey: string = 'egoekalp:auth';
+  private readonly storagePrefix: string = 'egoekalp';
 
-
-  public writeTokens(tokens: ILoginSuccessPayload): void {
-    localStorage.setItem(this.storageKey, JSON.stringify(tokens));
+  public write(key: string, value: any): void {
+    localStorage.setItem(`${this.storagePrefix}:${key}`, JSON.stringify(value));
   }
 
 
-  public getTokens(): ILoginSuccessPayload {
-    return JSON.parse(localStorage.getItem(this.storageKey) as string) as ILoginSuccessPayload;
+  public get<T>(key: string): T {
+    return JSON.parse(localStorage.getItem(`${this.storagePrefix}:${key}`) as string) as T;
   }
 
-  public deleteTokens(): void {
-    localStorage.removeItem(this.storageKey);
+  public delete(key: string): void {
+    localStorage.removeItem(`${this.storagePrefix}:${key}`);
   }
 }
