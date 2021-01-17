@@ -5,7 +5,7 @@ import {
     getSubmitButton, getUserNameError,
     getUserNameInput,
     goToUri
-} from '../../helpers/login.helper';
+} from './helpers/login.helper';
 
 describe('Initial load', () => {
     it('should redirect to login from "/" if the user does not have credentials', () => {
