@@ -5,6 +5,7 @@ import {FormsModule} from '@angular/forms';
 import {AppStoreModule} from '../store/app-store.module';
 import {UiModule} from '../ui/ui.module';
 import {LoginGuard} from '../store/guards/login.guard';
+import {CommonModule} from '@angular/common';
 
 const routes: Routes = [
   {
@@ -18,6 +19,7 @@ const routes: Routes = [
   imports: [
     UiModule,
     FormsModule,
+    CommonModule,
     AppStoreModule,
     RouterModule.forChild(routes),
   ],

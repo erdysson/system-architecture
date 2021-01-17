@@ -4,6 +4,7 @@ import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {HttpErrorResponse} from '@angular/common/http';
+import {ILoginFailurePayload} from '../store/interfaces';
 
 @Component({
   selector: 'login',
@@ -16,6 +17,8 @@ export class LoginComponent implements OnDestroy {
 
   public password: string = '';
 
+  public error: ILoginFailurePayload|null = null;
+
   private readonly destroy$: Subject<void> = new Subject<void>();
 
   constructor(
@@ -26,12 +29,14 @@ export class LoginComponent implements OnDestroy {
   }
 
   public login(): void {
+    this.error = null;
     this.authService.logIn({userName: this.userName, password: this.password}).pipe(
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.router.navigate(['/']);
     }, (errorResponse: HttpErrorResponse) => {
       console.log('error while login', errorResponse.error);
+      this.error = errorResponse.error;
     });
   }
 
