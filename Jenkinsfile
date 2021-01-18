@@ -2,10 +2,8 @@ pipeline {
 
     agent {
         docker {
+            def PATH = '/usr/local/bin'
             image 'node:14-alpine'
-            args '''
-                -e PATH=/usr/local/bin
-            '''
         }
     }
 
