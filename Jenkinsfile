@@ -1,17 +1,9 @@
 pipeline {
-    agent any
-
+    agent { docker { image 'node:14-alpine' } }
     stages {
-
-        stage('Build Backend') {
+        stage('build') {
             steps {
-                sh 'cd app && npm install && npm run build'
-            }
-        }
-
-        stage('Build Frontend') {
-            steps {
-                sh 'cd app-frontend && npm install && npm run build'
+                sh 'npm --version'
             }
         }
     }
