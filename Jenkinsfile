@@ -19,7 +19,10 @@ pipeline {
 
         stage('install BE packages') {
             steps {
-                sh 'cd app && npm install'
+                sh '''
+                    cd app
+                    npm install
+                   '''
             }
         }
     }
