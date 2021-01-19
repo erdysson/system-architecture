@@ -29,11 +29,12 @@ pipeline {
         }
 
         stage('build BE') {
-                    steps {
-                        sh '''
-                            npm run build
-                           '''
-                    }
-                }
+            steps {
+                sh '''
+                    cd app
+                    npm run build
+                   '''
+            }
+        }
     }
 }
