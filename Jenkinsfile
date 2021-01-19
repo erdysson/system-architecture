@@ -8,9 +8,16 @@ pipeline {
     }
 
     stages {
-        stage('build') {
+        stage('preparation') {
             steps {
                 sh 'node --version'
+                sh 'npm --version'
+            }
+        }
+
+        stage('install BE packages') {
+            steps {
+                sh 'cd app && npm install'
             }
         }
     }
