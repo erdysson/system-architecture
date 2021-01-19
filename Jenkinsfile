@@ -1,9 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:14-alpine'
-        }
-    }
+    agent any
 
     environment {
         HOME = '.'
@@ -11,6 +7,13 @@ pipeline {
 
     stages {
         stage('preparation') {
+
+            agent {
+                docker {
+                    image 'node:14-alpine'
+                }
+            }
+
             steps {
                 sh '''
                    node --version
@@ -20,6 +23,13 @@ pipeline {
         }
 
         stage('install BE packages') {
+
+            agent {
+                docker {
+                    image 'node:14-alpine'
+                }
+            }
+
             steps {
                 sh '''
                     cd app
