@@ -8,7 +8,6 @@ pipeline {
     stages {
 
         stage('Build BE') {
-
             agent {
                 docker {
                     image 'node:14-alpine'
@@ -25,7 +24,6 @@ pipeline {
         }
 
         stage('Build FE') {
-
             agent {
                 docker {
                     image 'node:14-alpine'
@@ -41,8 +39,23 @@ pipeline {
             }
         }
 
-        stage('Test') {
+        stage('Start System') {
+            agent {
+                docker {
+                    image 'nginx'
+                }
+            }
 
+            steps {
+                sh '''
+                    nginx
+                    echo "started nginx and will stop now"
+                    nginx -s stop
+                   '''
+            }
+        }
+
+        stage('Test') {
             agent {
                 docker {
                     image 'node:14-alpine'
