@@ -16,6 +16,8 @@ pipeline {
 
             steps {
                 sh '''
+                    mkdir -p /var/cache/nginx
+                    chown nginx:nginx /var/cache/nginx
                     nginx
                     echo "started nginx and will stop now"
                     nginx -s stop
