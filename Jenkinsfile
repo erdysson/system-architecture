@@ -7,6 +7,22 @@ pipeline {
 
     stages {
 
+        stage('Start Nginx') {
+            agent {
+                docker {
+                    image 'nginx'
+                }
+            }
+
+            steps {
+                sh '''
+                    nginx
+                    echo "started nginx and will stop now"
+                    nginx -s stop
+                   '''
+            }
+        }
+
         stage('Build BE') {
             agent {
                 docker {
@@ -35,22 +51,6 @@ pipeline {
                     cd app-frontend
                     npm install
                     npm run build
-                   '''
-            }
-        }
-
-        stage('Start System') {
-            agent {
-                docker {
-                    image 'nginx'
-                }
-            }
-
-            steps {
-                sh '''
-                    nginx
-                    echo "started nginx and will stop now"
-                    nginx -s stop
                    '''
             }
         }
