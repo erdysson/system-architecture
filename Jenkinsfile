@@ -36,5 +36,32 @@ pipeline {
                    '''
             }
         }
+
+        stage('install FE packages') {
+            steps {
+                sh '''
+                    cd app-frontend
+                    npm install
+                   '''
+            }
+        }
+
+        stage('build FE') {
+            steps {
+                sh '''
+                    cd app-frontend
+                    npm run build
+                   '''
+            }
+        }
+
+        stage('install TEST packages') {
+            steps {
+                sh '''
+                    cd app-test
+                    npm install
+                   '''
+            }
+        }
     }
 }
