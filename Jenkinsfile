@@ -18,6 +18,7 @@ pipeline {
             steps {
                 sh '''
                     nginx
+                    curl https://localhost/
                     echo "started nginx and will stop now"
                     nginx -s stop
                    '''
