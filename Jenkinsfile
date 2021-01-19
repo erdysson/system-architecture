@@ -27,5 +27,13 @@ pipeline {
                    '''
             }
         }
+
+        stage('build BE') {
+                    steps {
+                        sh '''
+                            npm run build
+                           '''
+                    }
+                }
     }
 }
