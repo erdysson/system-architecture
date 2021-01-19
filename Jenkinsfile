@@ -11,7 +11,7 @@ pipeline {
             agent {
                 docker {
                     image 'nginx'
-                    args '-c /usr/local/etc/nginx/nginx.conf'
+                    args '-v ./'
                 }
             }
 
