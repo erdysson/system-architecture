@@ -10,7 +10,7 @@ pipeline {
         stage('Start Nginx') {
             agent {
                 docker {
-                    image 'nginx'
+                    image 'nginx-unprivileged'
                 }
             }
 
