@@ -10,8 +10,10 @@ pipeline {
     stages {
         stage('preparation') {
             steps {
-                sh 'node --version'
-                sh 'npm --version'
+                sh '''
+                   node --version
+                   npm --version
+                   '''
             }
         }
 
