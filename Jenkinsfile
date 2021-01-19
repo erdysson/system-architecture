@@ -1,9 +1,5 @@
 pipeline {
 
-    environment {
-        PATH = '/usr/local/bin'
-    }
-
     agent {
 
         docker {
