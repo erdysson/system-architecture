@@ -11,7 +11,7 @@ pipeline {
             agent {
                 docker {
                     image 'nginxinc/nginx-unprivileged'
-                    args '-v /usr/local/etc/nginx/nginx.conf'
+                    args '-v /usr/local/etc/nginx/ -c /usr/local/etc/nginx/'
                 }
             }
 
