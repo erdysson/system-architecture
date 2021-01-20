@@ -28,7 +28,7 @@ RUN npm install --only=production
 
 COPY . .
 
-COPY --from=DEV /usr/src/nest_app ./dist
+COPY --from=DEV /usr/src/nest_app/dist ./dist
 
 EXPOSE 3000
 
