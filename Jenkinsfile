@@ -7,18 +7,10 @@ pipeline {
 
     stages {
         stage('Build Backend') {
-            agent {
-                dockerfile {
-                    dir 'app'
-                    additionalBuildArgs  '-t nest_app'
-                }
-            }
-
-            steps {
-                sh '''
-                    npm --version
-                '''
-            }
+            dir ('/app') {
+                  sh 'docker build -t nest_app .'
+                  sh 'docker run nest_app -p 3000:3000'
+               }
         }
     }
 }
