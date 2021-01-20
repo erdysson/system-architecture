@@ -1,9 +1,19 @@
-stages {
-  stage('Building image') {
-    steps{
-      script {
-        docker.build registry + ":$BUILD_NUMBER"
-      }
+pipeline {
+    agent any
+
+    {
+        environment {
+            HOME = '.'
+        }
     }
-  }
+
+    stages {
+        stage('Build Backend') {
+            agent {
+                dockerfile {
+                    dir 'app'
+                }
+            }
+        }
+    }
 }
