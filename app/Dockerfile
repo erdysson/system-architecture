@@ -1,21 +1,33 @@
-FROM node:12
-# Create app directory
-WORKDIR /usr/src/app
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
+# dev dependencies and compilation stage
+
+FROM node:14 AS DEV
+
+WORKDIR /usr/src/nest_app
+
 COPY package*.json ./
 
-# If you are building your code for development
 RUN npm install
-# If you are building your code for production
-# RUN npm ci --only=production
 
-# Bundle app source
 COPY . .
-# Your app binds to port 8080
-# so you'll use the EXPOSE instruction to have it mapped by the docker daemon
-EXPOSE 3000
 
-# define the command to run your app using CMD which defines your runtime
-CMD [ "npm", "run", "start:prod"]
+RUN npm run build
+
+# final code to be containerized
+
+FROM node:14 as PROD
+
+ARG NODE_ENV=production
+
+ENV NODE_ENV=$P{NODE_ENV}
+
+WORKDIR /usr/src/nest_app
+
+COPY package*.json ./
+
+RUN npm install --only=production
+
+COPY . .
+
+COPY --from=DEV /usr/src/nest_app/dist ./dist
+
+CMD ["npm", "run", "start:prod"]
