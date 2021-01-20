@@ -1,36 +1,20 @@
 # dev dependencies and compilation stage
 
-FROM node:14 AS DEV
+FROM node:14
 
 WORKDIR /usr/src/nest_app
 
 COPY package*.json ./
 
-RUN npm install --only=development
+RUN npm install
 
 COPY . .
-
-CMD ["npm", "run", "build"]
-
-WORKDIR /usr/src/nest_app/dist
-
-# final code to be containerized
-
-FROM node:14
 
 ARG NODE_ENV=production
 
 ENV NODE_ENV=${NODE_ENV}
 
-WORKDIR /usr/src/nest_app
-
-COPY package*.json ./
-
-RUN npm install --only=production
-
-COPY . .
-
-COPY --from=DEV usr/src/nest_app/dist ./dist
+CMD ["npm", "run", "build"]
 
 EXPOSE 3000
 
