@@ -1,11 +1,35 @@
-FROM golang:1.7.3
-WORKDIR /go/src/github.com/alexellis/href-counter/
-RUN go get -d -v golang.org/x/net/html  
-COPY app.go .
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
+# dev dependencies and compilation stage
 
-FROM alpine:latest  
-RUN apk --no-cache add ca-certificates
-WORKDIR /root/
-COPY --from=0 /go/src/github.com/alexellis/href-counter/app .
-CMD ["./app"]
+FROM node:14 AS DEV
+
+WORKDIR /usr/src/nest_app
+
+COPY package*.json ./
+
+RUN npm install --only=development
+
+COPY . .
+
+CMD ["npm", "run", "build"]
+
+# final code to be containerized
+
+FROM node:14
+
+ARG NODE_ENV=production
+
+ENV NODE_ENV=${NODE_ENV}
+
+WORKDIR /usr/src/nest_app
+
+COPY package*.json ./
+
+RUN npm install --only=production
+
+COPY . .
+
+COPY --from=DEV usr/src/nest_app/dist ./dist
+
+EXPOSE 3000
+
+CMD ["npm", "run", "start:prod"]
