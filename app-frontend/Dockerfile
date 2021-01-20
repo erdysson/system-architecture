@@ -16,8 +16,6 @@ ENV NODE_ENV=$P{NODE_ENV}
 
 CMD ["npm", "run", "build"]
 
-WORKDIR /usr/src/angular_app/dist/app-frontend
-
 # final stage with nginx server
 
 FROM nginx:1.17.1-alpine AS PROD
