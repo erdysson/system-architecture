@@ -10,6 +10,7 @@ pipeline {
             agent {
                 dockerfile {
                     dir 'app'
+                    additionalBuildArgs  '-t nest_app'
                 }
             }
 
