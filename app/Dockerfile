@@ -1,6 +1,6 @@
 # dev dependencies and compilation stage
 
-FROM node:14 As DEV
+FROM node:14 AS DEV
 
 WORKDIR /usr/src/nest_app
 
@@ -28,7 +28,7 @@ RUN npm install --only=production
 
 COPY . .
 
-COPY --from=DEV /usr/src/nest_app/dist ./dist
+COPY --from=DEV /usr/src/nest_app/dist/* ./dist
 
 EXPOSE 3000
 
