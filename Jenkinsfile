@@ -19,5 +19,17 @@ pipeline {
                 }
             }
         }
+        
+        stage('Build Frontend') {
+            steps {
+
+                dir('app-frontend') {
+                    script {
+                        dockerImage = docker.build('angular_app', '--no-cache .')
+
+                    }
+                }
+            }
+        }
     }
 }
