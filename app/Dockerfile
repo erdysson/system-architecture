@@ -16,6 +16,4 @@ ENV NODE_ENV=${NODE_ENV}
 
 CMD ["npm", "run", "build"]
 
-EXPOSE 3000
-
 CMD ["npm", "run", "start:prod"]
