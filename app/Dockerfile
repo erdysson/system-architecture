@@ -1,6 +1,6 @@
 # dev dependencies and compilation stage
 
-FROM node:14 As dev
+FROM node:14 As DEV
 
 WORKDIR /usr/src/nest_app
 
@@ -14,7 +14,7 @@ CMD ["npm", "run", "build"]
 
 # final code to be containerized
 
-FROM node:14 As prod
+FROM node:14
 
 ARG NODE_ENV=production
 
@@ -28,7 +28,7 @@ RUN npm install --only=production
 
 COPY . .
 
-COPY --from=dev /usr/src/nest_app/dist ./dist
+COPY --from=DEV /usr/src/nest_app ./dist
 
 EXPOSE 3000
 
