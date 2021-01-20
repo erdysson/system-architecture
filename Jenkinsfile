@@ -13,7 +13,7 @@ pipeline {
 
                 dir('app') {
                     script {
-                        dockerImage = docker.build 'nest_app'
+                        dockerImage = docker.build("--no-cache","-t nest_app")
 
                     }
                 }
