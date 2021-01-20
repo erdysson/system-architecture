@@ -12,6 +12,8 @@ COPY . .
 
 CMD ["npm", "run", "build"]
 
+WORKDIR /usr/src/nest_app/dist
+
 # final code to be containerized
 
 FROM node:14
