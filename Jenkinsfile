@@ -12,6 +12,12 @@ pipeline {
                     dir 'app'
                 }
             }
+
+            steps {
+                sh '''
+                    npm --version
+                '''
+            }
         }
     }
 }
