@@ -8,9 +8,9 @@ ENV NODE_ENV=production
 
 RUN npm install
 
-CMD ["npm", "run", "build"]
+RUN npm run build
 
-COPY dist ./dist
+COPY . .
 
 FROM nginx:1.17.1-alpine
 
