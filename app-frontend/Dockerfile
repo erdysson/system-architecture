@@ -12,7 +12,7 @@ CMD ["npm", "run", "build"]
 
 COPY dist ./dist
 
-FROM nginx:1.17.1-alpine AS PROD
+FROM nginx:1.17.1-alpine
 
 WORKDIR /app-frontend
 
