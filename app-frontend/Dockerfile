@@ -16,8 +16,6 @@ COPY dist ./dist
 
 FROM nginx:1.17.1-alpine
 
-WORKDIR /app-frontend
+COPY --from=build /app-frontend/dist/app-frontend /usr/share/nginx/html
 
-COPY --from=build dist/app-frontend /usr/share/nginx/html
-
-COPY --from=build nginx.conf /etc/nginx/nginx.conf
+COPY --from=build /app-frontend/nginx.conf /etc/nginx/nginx.conf
