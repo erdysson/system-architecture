@@ -49,7 +49,7 @@ pipeline {
             }
         }
 
-        stage('Build Backend Image') {
+        stage('Build Frontend Image') {
             steps {
                 dir('app-frontend') {
                     script {
