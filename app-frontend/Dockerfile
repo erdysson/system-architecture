@@ -8,9 +8,11 @@ ENV NODE_ENV=production
 
 RUN npm install
 
-RUN node_modules/.bin/ng build --prod
-
 COPY . .
+
+RUN npm run --prod
+
+COPY dist ./dist
 
 FROM nginx:1.17.1-alpine
 
