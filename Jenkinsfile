@@ -8,11 +8,6 @@ pipeline {
     stages {
 
         stage('Build Frontend') {
-            agent {
-                docker {
-                    image 'node:14-alpine'
-                }
-            }
 
             steps {
                 dir ('app-frontend') {
