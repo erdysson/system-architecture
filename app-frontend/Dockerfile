@@ -10,7 +10,7 @@ RUN npm install
 
 CMD ["npm", "run", "build"]
 
-COPY . .
+COPY dist ./dist
 
 FROM nginx:1.17.1-alpine AS PROD
 

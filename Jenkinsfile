@@ -8,24 +8,13 @@ pipeline {
     stages {
 
         stage('Build Frontend') {
-
             steps {
                 dir ('app-frontend') {
                     script {
-                        sh('./build.sh')
+                        docker.build('angular_app', ' -f Dockerfile .')
                     }
                 }
             }
-        }
-
-        stage('Build Frontend Image') {
-            steps {
-                dir('app-frontend') {
-                    script {
-                        docker.build('angular_app', ' -f Dockerfile ${WORKSPACE}')
-                    }
-                }
-           }
         }
 
         stage('Build Backend') {
