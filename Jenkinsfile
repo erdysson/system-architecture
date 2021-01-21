@@ -10,7 +10,7 @@ pipeline {
             steps {
                 dir('app') {
                     script {
-                        docker.build('nest_app', '-f Dockerfile .')
+                        docker.build('nest_app', '--no-cache -f Dockerfile .')
                     }
                 }
            }
