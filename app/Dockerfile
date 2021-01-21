@@ -1,19 +1,13 @@
-# dev dependencies and compilation stage
-
-FROM node:14
-
-WORKDIR /usr/src/nest_app
+FROM node:14-alpine
 
 COPY package*.json ./
 
-RUN npm install
+COPY dist ./dist
 
-COPY . .
+COPY node_modules ./node_modules
 
-ARG NODE_ENV=production
+ENV NODE_ENV=production
 
-ENV NODE_ENV=${NODE_ENV}
-
-CMD ["npm", "run", "build"]
+EXPOSE 3000
 
 CMD ["npm", "run", "start:prod"]

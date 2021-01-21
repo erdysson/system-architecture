@@ -3,32 +3,31 @@ pipeline {
 
     environment {
         HOME = '.'
-
-        dockerImage = ''
     }
 
     stages {
         stage('Build Backend') {
-            steps {
 
-                dir('app') {
-                    script {
-                        dockerImage = docker.build('nest_app', '--no-cache .')
-
-                    }
+            agent {
+                docker {
+                    image 'node:14-alpine'
                 }
+            }
+
+            steps {
+                sh('''app/build.sh''')
             }
         }
 
         stage('Build Frontend') {
-            steps {
-
-                dir('app-frontend') {
-                    script {
-                        dockerImage = docker.build('angular_app', '--no-cache .')
-
-                    }
+            agent {
+                docker {
+                    image 'node:14-alpine'
                 }
+            }
+
+            steps {
+                sh('''app-frontend/build.sh''')
             }
         }
     }
