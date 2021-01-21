@@ -17,7 +17,7 @@ pipeline {
             steps {
                 dir('app') {
                     script {
-                        sh('./build.sh')
+                        bash('./build.sh')
                     }
                 }
             }
@@ -33,7 +33,7 @@ pipeline {
             steps {
                 dir ('app-frontend') {
                     script {
-                        sh('./build.sh')
+                        bash('./build.sh')
                     }
                 }
             }
