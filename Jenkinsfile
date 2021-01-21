@@ -18,6 +18,7 @@ pipeline {
                 dir('app') {
                     script {
                         sh('./build.sh')
+                        docker.build('nest_app', '-f Dockerfile .')
                     }
                 }
             }
@@ -34,6 +35,7 @@ pipeline {
                 dir ('app-frontend') {
                     script {
                         sh('./build.sh')
+                        docker.build('angular_app', '-f Dockerfile .')
                     }
                 }
             }

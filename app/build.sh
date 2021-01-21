@@ -10,4 +10,4 @@ rm -rf node_modules
 
 npm install --only=production
 
-docker build -t nest_app -f Dockerfile .
+#docker build -t nest_app -f Dockerfile .
