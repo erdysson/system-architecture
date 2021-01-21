@@ -2,4 +2,4 @@
 
 echo 'Build Angular Frontend Image'
 
-docker build -t angular_app -f Dockerfile .
+docker build -t angular_app --no-cache -f Dockerfile .

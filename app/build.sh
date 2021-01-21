@@ -2,4 +2,4 @@
 
 echo 'Build Nest Backend Image'
 
-docker build -t nest_app -f Dockerfile .
+docker build -t nest_app --no-cache -f Dockerfile .
