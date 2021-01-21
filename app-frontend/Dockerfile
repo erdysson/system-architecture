@@ -18,4 +18,4 @@ WORKDIR /app-frontend
 
 COPY --from=build dist/app-frontend /usr/share/nginx/html
 
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY --from=build nginx.conf /etc/nginx/nginx.conf
