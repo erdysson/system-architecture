@@ -4,7 +4,7 @@ COPY package*.json ./
 
 COPY dist ./dist
 
-COPY node_modules ./node_modules
+COPY app/node_modules ./node_modules
 
 ENV NODE_ENV=production
 
