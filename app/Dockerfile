@@ -1,16 +1,20 @@
-FROM node:14-alpine
+FROM node:12.7-alpine AS build
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY package.json package-lock.json ./
 
-RUN npm install
-
-CMD ["npm", "run", "build"]
+RUN npm install --only=development
 
 COPY . .
 
+RUN npm run build
+
+FROM node:12.7-alpine
+
 ENV NODE_ENV=production
+
+COPY --from=build /usr/src/app ./
 
 EXPOSE 3000
 
