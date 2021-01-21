@@ -8,9 +8,7 @@ CMD ["npm", "install"]
 
 CMD ["npm", "run", "build"]
 
-COPY dist ./dist
-
-COPY node_modules ./node_modules
+COPY . .
 
 ENV NODE_ENV=production
 
