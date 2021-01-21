@@ -5,34 +5,34 @@ pipeline {
         HOME = '.'
     }
 
-    stage('Build Frontend') {
-        agent {
-            docker {
-                image 'node:14-alpine'
-            }
-        }
-
-        steps {
-            dir ('app-frontend') {
-                script {
-                    sh('./build.sh')
-                }
-            }
-        }
-    }
-
-    stage('Build Frontend Image') {
-        steps {
-            dir('app-frontend') {
-                script {
-                    docker.build('angular_app', '-f Dockerfile .')
-                }
-            }
-       }
-    }
-
-
     stages {
+
+        stage('Build Frontend') {
+            agent {
+                docker {
+                    image 'node:14-alpine'
+                }
+            }
+
+            steps {
+                dir ('app-frontend') {
+                    script {
+                        sh('./build.sh')
+                    }
+                }
+            }
+        }
+
+        stage('Build Frontend Image') {
+            steps {
+                dir('app-frontend') {
+                    script {
+                        docker.build('angular_app', '-f Dockerfile .')
+                    }
+                }
+           }
+        }
+
         stage('Build Backend') {
             steps {
                 dir('app') {
