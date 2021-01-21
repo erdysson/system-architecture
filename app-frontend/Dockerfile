@@ -2,7 +2,7 @@ FROM nginx:1.17.1-alpine AS PROD
 
 WORKDIR /app-frontend
 
-RUN echo "$PWD"
+RUN echo "working dir is : $PWD"
 
 COPY dist/app-frontend /usr/share/nginx/html
 
