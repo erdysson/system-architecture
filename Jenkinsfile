@@ -27,7 +27,7 @@ pipeline {
             steps {
                 dir('app-frontend') {
                     script {
-                        docker.build('angular_app', ' -f Dockerfile ${WORKSPACE}')
+                        docker.build('angular_app', ' -f Dockerfile ${PWD}')
                     }
                 }
            }
