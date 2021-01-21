@@ -2,8 +2,8 @@
 
 echo 'Building Nest'
 
-npm install
+#npm install
 
-npm run build
+#npm run build
 
 #docker build -t nest_app -f Dockerfile .
