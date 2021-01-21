@@ -5,7 +5,7 @@ import {TokenService} from '../services/token.service';
 import {Router} from '@angular/router';
 import {AuthService} from '../services/auth.service';
 import {switchMap} from 'rxjs/operators';
-import {IRefreshTokenResponse} from '../../../../../app/dist/interfaces/auth.interface';
+import {IRefreshTokenResponse} from '../interfaces';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -34,7 +34,7 @@ export class AuthInterceptor implements HttpInterceptor {
             req = this.setBearerToken(req, response.token);
             return next.handle(req);
           })
-        )
+        );
       } else {
         req = this.setBearerToken(req, accessToken);
         return next.handle(req);

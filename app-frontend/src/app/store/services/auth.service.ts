@@ -1,13 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
-import {IAppState, ILoginPayload, ILoginSuccessPayload, IRefreshTokenPayload} from '../interfaces';
+import {IAppState, ILoginPayload, ILoginSuccessPayload, IRefreshTokenPayload, IRefreshTokenResponse} from '../interfaces';
 import {LocalStorageService} from './local-storage.service';
 import {Router} from '@angular/router';
 import {TokenService} from './token.service';
 import {HttpClient} from '@angular/common/http';
 import {tap} from 'rxjs/operators';
-import {IRefreshTokenResponse} from '../../../../../app/dist/interfaces/auth.interface';
 
 @Injectable()
 export class AuthService {

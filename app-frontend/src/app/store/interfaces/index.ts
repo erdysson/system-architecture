@@ -20,10 +20,14 @@ export interface ILoginSuccessPayload {
 export interface ILoginFailurePayload {
   invalidField: string|null;
   message: string|null;
-  statusCode: number|null
+  statusCode: number|null;
 }
 
 export interface IRefreshTokenPayload {
+  token: string;
+}
+
+export interface IRefreshTokenResponse {
   token: string;
 }
 
