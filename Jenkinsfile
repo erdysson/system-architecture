@@ -18,10 +18,19 @@ pipeline {
                 dir('app') {
                     script {
                         sh('./build.sh')
-                        docker.build('nest_app', '-f Dockerfile .')
                     }
                 }
             }
+        }
+
+        stage('Build Backend Image') {
+            steps {
+                dir('app') {
+                    script {
+                        docker.build('nest_app', '-f Dockerfile .')
+                    }
+                }
+           }
         }
 
         stage('Build Frontend') {
@@ -35,10 +44,19 @@ pipeline {
                 dir ('app-frontend') {
                     script {
                         sh('./build.sh')
-                        docker.build('angular_app', '-f Dockerfile .')
                     }
                 }
             }
+        }
+
+        stage('Build Backend Image') {
+            steps {
+                dir('app-frontend') {
+                    script {
+                        docker.build('angular_app', '-f Dockerfile .')
+                    }
+                }
+           }
         }
     }
 }
