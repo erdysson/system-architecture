@@ -3,7 +3,7 @@
 /node_modules
 
 #keys
-config/jwt/*.pem
+#config/jwt/*.pem
 
 # Logs
 logs
