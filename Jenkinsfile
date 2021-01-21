@@ -7,23 +7,6 @@ pipeline {
 
     stages {
         stage('Build Backend') {
-
-            agent {
-                docker {
-                    image 'node:14-alpine'
-                }
-            }
-
-            steps {
-                dir('app') {
-                    script {
-                        sh('./build.sh')
-                    }
-                }
-            }
-        }
-
-        stage('Build Backend Image') {
             steps {
                 dir('app') {
                     script {
