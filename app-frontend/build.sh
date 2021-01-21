@@ -1,9 +1,9 @@
 #! /bin/sh
 
-echo 'Building Angular'
+echo 'Building Angular ${pwd}'
 
-#npm install
+npm install
 
-#npm run build --NODE_ENV=production
+npm run build --NODE_ENV=production
 
 #docker build -t angular_app -f Dockerfile .
