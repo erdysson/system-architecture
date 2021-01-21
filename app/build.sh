@@ -1,9 +1,5 @@
 #! /bin/sh
 
-echo 'Building Nest'
+echo 'Build Nest Backend Image'
 
-#npm install
-
-#npm run build
-
-#docker build -t nest_app -f Dockerfile .
+docker build -t nest_app -f Dockerfile .

@@ -11,7 +11,7 @@ pipeline {
             steps {
                 dir('app') {
                     script {
-                        docker.build('nest_app', '--no-cache -f Dockerfile .')
+                        sh('build.sh')
                     }
                 }
            }
@@ -21,7 +21,7 @@ pipeline {
             steps {
                 dir ('app-frontend') {
                     script {
-                        docker.build('angular_app', ' --no-cache -f Dockerfile .')
+                        sh('build.sh')
                     }
                 }
             }
