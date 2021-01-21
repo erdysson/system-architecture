@@ -1,21 +1,12 @@
-FROM node:14 AS build
-
-WORKDIR /app-frontend
-
-COPY package*.json ./
-
-ENV NODE_ENV=production
-
+FROM node:12.7-alpine AS build
+WORKDIR /usr/src/app
+COPY package.json package-lock.json ./
 RUN npm install
-
 COPY . .
-
 RUN npm run build
-
-COPY dist ./dist
 
 FROM nginx:1.17.1-alpine
 
-COPY --from=build /app-frontend/dist/app-frontend /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/nginx.conf
 
-COPY --from=build /app-frontend/nginx.conf /etc/nginx/nginx.conf
+COPY --from=build /usr/src/app/dist/app-frontend /usr/share/nginx/html
