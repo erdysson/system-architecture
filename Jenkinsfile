@@ -15,7 +15,7 @@ pipeline {
             }
 
             steps {
-                sh('''app/build.sh''')
+                sh('''./app/build.sh''')
             }
         }
 
@@ -27,7 +27,7 @@ pipeline {
             }
 
             steps {
-                sh('''app-frontend/build.sh''')
+                sh('''./app-frontend/build.sh''')
             }
         }
     }
