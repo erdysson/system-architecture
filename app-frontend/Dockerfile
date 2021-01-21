@@ -1,12 +1,11 @@
 FROM node:14-alpine
 
-COPY package*.json ./
 
 CMD ["npm", "install"]
 
 CMD ["npm", "run", "build"]
 
-COPY dist ./dist
+COPY . .
 
 FROM nginx:1.17.1-alpine AS PROD
 
