@@ -8,7 +8,7 @@ ENV NODE_ENV=production
 
 RUN npm install
 
-RUN npm run build
+RUN node_modules/.bin/ng build --prod
 
 COPY . .
 
