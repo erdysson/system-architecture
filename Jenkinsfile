@@ -11,7 +11,7 @@ pipeline {
             steps {
                 dir ('app-frontend') {
                     script {
-                        docker.build('angular_app', ' -f Dockerfile .')
+                        docker.build('angular_app', ' --no-cache -f Dockerfile .')
                     }
                 }
             }
