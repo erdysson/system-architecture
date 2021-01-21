@@ -1,5 +1,7 @@
 FROM node:14-alpine
 
+WORKDIR /app-frontend
+
 COPY package*.json ./
 
 CMD ["npm", "install"]
