@@ -2,6 +2,6 @@
 
 echo 'Stopping Angular Frontend...'
 
-docker stop -t 10 angular_app_container
+docker stop angular_app_container_${BUILD_NUMBER}
 
 echo 'Stopped Angular Frontend container'
