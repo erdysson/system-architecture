@@ -26,5 +26,22 @@ pipeline {
                 }
             }
         }
+
+        stage('Initiate Environment') {
+
+            steps {
+                dir ('app') {
+                    script {
+                        sh('''./scripts/start.sh''')
+                    }
+                }
+
+                dir ('app-frontend') {
+                    script {
+                        sh('''./scripts/start.sh''')
+                    }
+                }
+            }
+        }
     }
 }
