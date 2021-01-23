@@ -55,18 +55,15 @@ pipeline {
 
             agent {
                 docker {
-                    image 'node:12.7-alpine'
+                    image 'cypress/base:10'
                 }
             }
 
             steps {
-
-                dir('app-test') {
-
-                    script {
-                        sh('''./scripts/run.sh''')
-                    }
-                }
+                echo "Running build ${env.BUILD_ID} on ${env.JENKINS_URL}"
+                sh 'npm ci'
+                sh 'npm run cy:verify"jenkins'
+                sh "npm run cy:run:jenkins"
             }
         }
     }

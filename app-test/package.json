@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "cypress:open": "./node_modules/.bin/cypress open",
-    "cypress:run": "./node_modules/.bin/cypress run"
+    "cy:verify:jenkins": "cypress verify",
+    "cypress:open:local": "./node_modules/.bin/cypress open",
+    "cy:run:local": "./node_modules/.bin/cypress run",
+    "cy:run:jenkins": "cypress run --parallel"
   },
   "author": "Erdi Taner Gokalp",
   "license": "ISC",
