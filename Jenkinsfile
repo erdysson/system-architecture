@@ -49,29 +49,28 @@ pipeline {
                 }
             }
         }
+    }
 
-        stage('Shutdown Environment') {
-
-            steps {
-                dir ('app') {
-                    script {
-                        sh('''./scripts/stop.sh''')
-                        sh('''./scripts/remove.sh''')
-                    }
+    post {
+        always {
+            dir ('app') {
+                script {
+                    sh('''./scripts/stop.sh''')
+                    sh('''./scripts/remove.sh''')
                 }
+            }
 
-                dir ('app-frontend') {
-                    script {
-                        sh('''./scripts/stop.sh''')
-                        sh('''./scripts/remove.sh''')
-                    }
+            dir ('app-frontend') {
+                script {
+                    sh('''./scripts/stop.sh''')
+                    sh('''./scripts/remove.sh''')
                 }
+            }
 
-                dir ('nginx') {
-                    script {
-                        sh('''./scripts/stop.sh''')
-                        sh('''./scripts/remove.sh''')
-                    }
+            dir ('nginx') {
+                script {
+                    sh('''./scripts/stop.sh''')
+                    sh('''./scripts/remove.sh''')
                 }
             }
         }
