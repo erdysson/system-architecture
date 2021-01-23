@@ -12,6 +12,14 @@ http {
   keepalive_timeout  65;
   proxy_http_version 1.1;
 
+  upstream backend {
+      server ${NEST_APP_CONTAINER_IP}:3000;
+  }
+
+  upstream frontend {
+      server ${ANGULAR_APP_CONTAINER_IP}:4200;
+  }
+
   # configure nginx server to redirect to HTTPS
   server {
     listen       80;
@@ -27,18 +35,19 @@ http {
     include snippets/self-signed.conf;
     include snippets/ssl-params.conf;
 
-    # route auth requests to node server
+    # route api requests to node server
     location /api {
-      proxy_pass http://localhost:3000;
+      proxy_pass http://backend;
     }
 
+    # route auth requests to node server
     location /auth {
-      proxy_pass http://localhost:3000;
+      proxy_pass http://backend;
     }
 
-    # route requests to angular  development server
+    # route static requests to angular development server
     location / {
-      proxy_pass http://localhost:4200;
+      proxy_pass http://frontend;
     }
   }
 }
