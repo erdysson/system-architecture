@@ -60,7 +60,7 @@ pipeline {
             }
 
             steps {
-                sh 'npm ci'
+                sh 'npm install'
                 sh 'npm run cy:verify"jenkins'
                 sh "npm run cy:run:jenkins"
             }
