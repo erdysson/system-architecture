@@ -60,9 +60,13 @@ pipeline {
             }
 
             steps {
-                sh 'npm install'
-                sh 'npm run cy:verify"jenkins'
-                sh "npm run cy:run:jenkins"
+                dir('app-test') {
+                    script {
+                        sh 'npm ci'
+                        sh 'npm run cy:verify"jenkins'
+                        sh "npm run cy:run:jenkins"
+                    }
+                }
             }
         }
     }
