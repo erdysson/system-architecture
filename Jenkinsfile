@@ -41,6 +41,38 @@ pipeline {
                         sh('''./scripts/start.sh''')
                     }
                 }
+
+                dir ('nginx') {
+                    script {
+                        sh('''./scripts/start.sh''')
+                    }
+                }
+            }
+        }
+
+        stage('Shutdown Environment') {
+
+            steps {
+                dir ('app') {
+                    script {
+                        sh('''./scripts/stop.sh''')
+                        sh('''./scripts/remove.sh''')
+                    }
+                }
+
+                dir ('app-frontend') {
+                    script {
+                        sh('''./scripts/stop.sh''')
+                        sh('''./scripts/remove.sh''')
+                    }
+                }
+
+                dir ('nginx') {
+                    script {
+                        sh('''./scripts/stop.sh''')
+                        sh('''./scripts/remove.sh''')
+                    }
+                }
             }
         }
     }
