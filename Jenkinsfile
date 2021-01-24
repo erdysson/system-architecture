@@ -11,7 +11,7 @@ pipeline {
 
             agent {
                 docker {
-                    image 'cypress/base:10'
+                    image 'node:14-alpine'
                 }
             }
 
