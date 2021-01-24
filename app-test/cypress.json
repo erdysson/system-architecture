@@ -1,1 +1,6 @@
-{}
+{
+  "testFiles": "**/*.spec.ts",
+  "screenshotOnRunFailure": true,
+  "screenshotsFolder": "cypress/screenshots",
+  "trashAssetsBeforeRuns": true
+}
