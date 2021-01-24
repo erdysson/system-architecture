@@ -62,6 +62,7 @@ pipeline {
             steps {
                 dir('app-test') {
                     script {
+                        sh 'npm install'
                         sh 'npm run cy:verify:jenkins'
                         sh "npm run cy:run:jenkins"
                     }
