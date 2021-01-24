@@ -62,9 +62,13 @@ pipeline {
             steps {
                 dir('app-test') {
                     script {
-                        sh 'npm install'
-                        sh 'npm run cy:verify:jenkins'
-                        sh "npm run cy:run:jenkins"
+                        sh '''
+                            export CYPRESS_CACHE_FOLDER=../../cache/Cypress
+                            npm install
+                            export CYPRESS_CACHE_FOLDER=cache/Cypress
+                            npm run cy:verify:jenkins
+                            npm run cy:run:jenkins
+                        '''
                     }
                 }
             }
