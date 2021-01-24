@@ -21,6 +21,7 @@ pipeline {
                         sh '''
                             export CYPRESS_CACHE_FOLDER=~/Library/Caches/Cypress
                             npm ci
+                            npm run cy:verify:jenkins
                             npm run cy:run:jenkins
                         '''
                     }
