@@ -20,6 +20,7 @@ pipeline {
                     script {
                         sh '''
                             npm install
+                            cypress install
                             npx cypress run
                         '''
                     }
