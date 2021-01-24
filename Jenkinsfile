@@ -7,16 +7,6 @@ pipeline {
 
     stages {
 
-        stage('Test') {
-            steps {
-                dir('app-test') {
-                    script {
-                        sh('''./scripts/run.sh''')
-                    }
-                }
-            }
-        }
-
         stage('Build Backend') {
             steps {
                 dir('app') {
@@ -38,7 +28,6 @@ pipeline {
         }
 
         stage('Initiate Environment') {
-
             steps {
                 dir ('app') {
                     script {
@@ -55,6 +44,16 @@ pipeline {
                 dir ('nginx') {
                     script {
                         sh('''./scripts/start.sh''')
+                    }
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                dir('app-test') {
+                    script {
+                        sh('''./scripts/run.sh''')
                     }
                 }
             }
