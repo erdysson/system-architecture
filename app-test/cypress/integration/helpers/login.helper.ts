@@ -1,6 +1,5 @@
 export function goToUri(uri) {
-    const serverUrl = 'https://localhost';
-    return cy.visit(serverUrl + uri);
+    return cy.visit(uri);
 }
 
 export function getBrowserUrl() {

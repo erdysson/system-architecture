@@ -54,7 +54,7 @@ pipeline {
             steps {
                 dir('app-test') {
                     script {
-                        sh('''./scripts/run.sh''')
+                        sh('''./scripts/start.sh''')
                     }
                 }
             }
@@ -80,6 +80,12 @@ pipeline {
             dir ('nginx') {
                 script {
                     sh('''./scripts/stop.sh''')
+                    sh('''./scripts/remove.sh''')
+                }
+            }
+
+            dir ('app-test') {
+                script {
                     sh('''./scripts/remove.sh''')
                 }
             }
