@@ -19,10 +19,7 @@ pipeline {
                 dir('app-test') {
                     script {
                         sh '''
-
                             npm ci
-
-                            npm run cy:verify:jenkins
                             npm run cy:run:jenkins
                         '''
                     }

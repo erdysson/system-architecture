@@ -6,8 +6,8 @@
   "scripts": {
     "cypress:open:local": "./node_modules/.bin/cypress open",
     "cy:run:local": "./node_modules/.bin/cypress run",
-    "cy:verify:jenkins": "cypress verify",
-    "cy:run:jenkins": "cypress run --parallel --browser chrome"
+    "cy:verify:jenkins": "./node_modules/.bin/cypress verify",
+    "cy:run:jenkins": "./node_modules/.bin/cypress run --parallel --browser chrome"
   },
   "author": "Erdi Taner Gokalp",
   "license": "ISC",
