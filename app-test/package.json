@@ -6,6 +6,7 @@
   "scripts": {
     "cypress:open:local": "./node_modules/.bin/cypress open",
     "cy:run:local": "./node_modules/.bin/cypress run",
+    "cy:install:jenkins": "./node_modules/.bin/cypress install",
     "cy:verify:jenkins": "./node_modules/.bin/cypress verify",
     "cy:run:jenkins": "./node_modules/.bin/cypress run --parallel --browser chrome"
   },

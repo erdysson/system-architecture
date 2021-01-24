@@ -21,6 +21,7 @@ pipeline {
                     script {
                         sh '''
                             npm ci
+                            npm run cy:install:jenkins
                             npm run cy:run:jenkins
                         '''
                     }
