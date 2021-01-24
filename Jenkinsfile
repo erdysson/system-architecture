@@ -8,20 +8,10 @@ pipeline {
     stages {
 
         stage('Test') {
-
-            agent {
-                docker {
-                    image 'cypress/included:6.3.0'
-                }
-            }
-
             steps {
                 dir('app-test') {
                     script {
-                        sh '''
-                            npm install
-                            npx cypress run
-                        '''
+                        sh('''./scripts/run.sh''')
                     }
                 }
             }
