@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         HOME = '.'
+        CHROME_BIN = '/bin/google-chrome'
     }
 
     stages {
@@ -19,9 +20,7 @@ pipeline {
                 dir('app-test') {
                     script {
                         sh '''
-                            export CYPRESS_CACHE_FOLDER=~/Library/Caches/Cypress
                             npm ci
-                            npm run cy:verify:jenkins
                             npm run cy:run:jenkins
                         '''
                     }
