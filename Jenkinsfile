@@ -3,10 +3,32 @@ pipeline {
 
     environment {
         HOME = '.'
-        CHROME_BIN = '/bin/google-chrome'
     }
 
     stages {
+
+        stage('Test') {
+
+            agent {
+                docker {
+                    image 'cypress/base:12'
+                }
+            }
+
+            steps {
+                dir('app-test') {
+                    script {
+                        sh '''
+                            export CYPRESS_CACHE_FOLDER=../../cache/Cypress
+                            npm install
+                            export CYPRESS_CACHE_FOLDER=cache/Cypress
+                            npm run cy:verify:jenkins
+                            npm run cy:run:jenkins
+                        '''
+                    }
+                }
+            }
+        }
 
         stage('Build Backend') {
             steps {
@@ -46,29 +68,6 @@ pipeline {
                 dir ('nginx') {
                     script {
                         sh('''./scripts/start.sh''')
-                    }
-                }
-            }
-        }
-
-        stage('Test') {
-
-            agent {
-                docker {
-                    image 'cypress/base:12'
-                }
-            }
-
-            steps {
-                dir('app-test') {
-                    script {
-                        sh '''
-                            export CYPRESS_CACHE_FOLDER=../../cache/Cypress
-                            npm install
-                            export CYPRESS_CACHE_FOLDER=cache/Cypress
-                            npm run cy:verify:jenkins
-                            npm run cy:run:jenkins
-                        '''
                     }
                 }
             }
