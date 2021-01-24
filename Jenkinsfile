@@ -11,7 +11,7 @@ pipeline {
 
             agent {
                 docker {
-                    image 'cypress/browsers:chrome67'
+                    image 'cypress/base:10'
                     args '-v /Library/Caches/Cypress'
                 }
             }
@@ -20,7 +20,9 @@ pipeline {
                 dir('app-test') {
                     script {
                         sh '''
+                            export CYPRESS_CACHE_FOLDER=/Library/Caches/Cypress
                             npm ci
+                            export CYPRESS_CACHE_FOLDER=./node_modules/cypress/cache/Cypress
                             npm run cy:run:jenkins
                         '''
                     }
