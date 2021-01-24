@@ -3,8 +3,6 @@ pipeline {
 
     environment {
         HOME = '.'
-        CYPRESS_CACHE_FOLDER = '~/Library/Caches/Cypress'
-        CYPRESS_RUN_BINARY = '~/Library/Caches/Cypress/6.3.0/Cypress.app/Contents/MacOS/Cypress'
     }
 
     stages {
@@ -21,8 +19,8 @@ pipeline {
                 dir('app-test') {
                     script {
                         sh '''
-                            npm install
-                            npx cypress run
+                            CYPRESS_CACHE_FOLDER=~/Library/Caches/Cypress npm install
+                            CYPRESS_RUN_BINARY=~/Library/Caches/Cypress/6.3.0/Cypress.app/Contents/MacOS/Cypress cypress run
                         '''
                     }
                 }
