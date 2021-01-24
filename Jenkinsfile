@@ -20,7 +20,7 @@ pipeline {
                     script {
                         sh '''
                             export CYPRESS_CACHE_FOLDER=../../cache/Cypress
-                            npm install
+                            npm ci
                             export CYPRESS_CACHE_FOLDER=cache/Cypress
                             npm run cy:verify:jenkins
                             npm run cy:run:jenkins
