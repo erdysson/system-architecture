@@ -19,9 +19,9 @@ pipeline {
                 dir('app-test') {
                     script {
                         sh '''
-                            export CYPRESS_CACHE_FOLDER=~/Library/Caches/Cypress
+                            export CYPRESS_CACHE_FOLDER=/Library/Caches/Cypress
                             npm ci
-                            export CYPRESS_RUN_BINARY=~/Library/Caches/Cypress/6.3.0/Cypress
+                            export CYPRESS_RUN_BINARY=/Library/Caches/Cypress/6.3.0/Cypress
                             npm run cy:verify:jenkins
                             npm run cy:run:jenkins
                         '''
