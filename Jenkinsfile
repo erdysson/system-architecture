@@ -11,7 +11,7 @@ pipeline {
 
             agent {
                 docker {
-                    image 'cypress/included:3.4.0'
+                    image 'cypress/included:3.2.0'
                     args '-v /Library/Caches/Cypress'
                 }
             }
