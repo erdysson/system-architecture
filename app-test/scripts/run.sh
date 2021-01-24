@@ -2,8 +2,8 @@
 
 echo 'Starting Cypress container'
 
-docker run -v "$PWD":/e2e \
+docker run -v $PWD:/e2e \
            -w /e2e \
-           -it cypress/included:6.3.0 \
+           cypress/included:6.3.0 \
            --parallel \
            --browser chrome
