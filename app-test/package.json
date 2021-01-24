@@ -19,10 +19,9 @@
   },
   "author": "Erdi Taner Gokalp",
   "license": "ISC",
-  "dependencies": {
-    "cypress": "^6.3.0"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "cypress": "^6.3.0",
     "typescript": "^4.1.3"
   }
 }
