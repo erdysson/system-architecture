@@ -11,7 +11,7 @@ pipeline {
 
             agent {
                 docker {
-                    image 'cypress/browsers:chrome69'
+                    image 'cypress/included'
                     args '-v /Library/Caches/Cypress'
                 }
             }
