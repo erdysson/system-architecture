@@ -20,7 +20,7 @@ pipeline {
                     script {
                         sh '''
                             CYPRESS_CACHE_FOLDER=~/Library/Caches/Cypress npm install
-                            CYPRESS_RUN_BINARY=~/Library/Caches/Cypress/6.3.0/Cypress.app/Contents/MacOS/Cypress cypress run
+                            CYPRESS_RUN_BINARY=~/Library/Caches/Cypress/6.3.0/Cypress.app/Contents/MacOS/Cypress ./node_modules/.bin/cypress run
                         '''
                     }
                 }
