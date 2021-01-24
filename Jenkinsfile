@@ -43,10 +43,8 @@ pipeline {
 
                 dir ('nginx') {
                     script {
-                        sh('''
-                            ./scripts/build.sh
-                            ./scripts/start.sh
-                        ''')
+                        sh('''./scripts/build.sh''')
+                        sh('''./scripts/start.sh''')
                     }
                 }
             }
