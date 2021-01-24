@@ -20,8 +20,9 @@ pipeline {
                 dir('app-test') {
                     script {
                         sh '''
+                            export CYPRESS_CACHE_FOLDER=~/Library/Caches/Cypress
                             npm ci
-                            npm run cy:install:jenkins
+                            export CYPRESS_CACHE_FOLDER=./node_modules/cypress/cache/Cypress
                             npm run cy:run:jenkins
                         '''
                     }
