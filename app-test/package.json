@@ -4,24 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "cypress:open:local": "./node_modules/.bin/cypress open",
-    "cy:run:local": "./node_modules/.bin/cypress run",
-    "cy:install:jenkins": "./node_modules/.bin/cypress install",
-    "cy:verify:jenkins": "./node_modules/.bin/cypress verify",
-    "cy:run:jenkins": "./node_modules/.bin/cypress run --parallel --browser chrome",
-    "cy:verify": "cypress verify",
-    "cy:info": "cypress info",
-    "cy:version": "cypress version",
-    "cy:cache:list": "cypress cache list",
-    "cy:run": "cypress run",
-    "cy:run:record": "cypress run --record",
-    "cy:open": "cypress open"
+    "cy:open": "./node_modules/.bin/cypress open",
+    "cy:run": "./node_modules/.bin/cypress run"
   },
   "author": "Erdi Taner Gokalp",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "cypress": "^6.3.0"
+  },
   "devDependencies": {
-    "cypress": "^6.3.0",
     "typescript": "^4.1.3"
   }
 }
