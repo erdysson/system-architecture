@@ -11,8 +11,7 @@ pipeline {
 
             agent {
                 docker {
-                    image 'cypress/included:3.2.0'
-                    args '-v /Library/Caches/Cypress'
+                    image 'cypress/included:6.3.0'
                 }
             }
 
@@ -20,10 +19,8 @@ pipeline {
                 dir('app-test') {
                     script {
                         sh '''
-                            CYPRESS_CACHE_FOLDER=/Library/Caches/Cypress
                             npm install
-                            CYPRESS_RUN_BINARY=/Library/Caches/Cypress/6.3.0/Cypress.app/Contents/MacOS/Cypress
-                            npx cypress verify
+                            npx cypress run
                         '''
                     }
                 }
