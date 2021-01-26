@@ -8,8 +8,8 @@ NGINX_LB_CONTAINER_IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.
 
 docker run -v $PWD:/e2e \
            -w /e2e \
-           cypress/included:6.3.0 \
            --name="cypress_test_container_${BUILD_NUMBER}" \
+           cypress/included:6.3.0 \
            --browser chrome \
            --config baseUrl="https://${NGINX_LB_CONTAINER_IP}"
 
