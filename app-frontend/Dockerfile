@@ -1,4 +1,4 @@
-FROM node:12.7-alpine AS build
+FROM node:14.16-alpine AS build
 
 WORKDIR /usr/src/app-frontend
 
