@@ -7,15 +7,15 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {ILoginFailurePayload} from '../store/interfaces';
 
 @Component({
-  selector: 'login',
+  selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnDestroy {
 
-  public userName: string = '';
+  public userName = '';
 
-  public password: string = '';
+  public password = '';
 
   public error: ILoginFailurePayload|null = null;
 
@@ -40,7 +40,7 @@ export class LoginComponent implements OnDestroy {
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }

@@ -1,8 +1,8 @@
 <div class="dashboard">
   <h2>Dashboard</h2>
-  <div class="p-card">
+  <div class="card">
     <ng-container *ngFor="let user of users$ | async">
-      <div class="p-col-12">{{ user | json }}</div>
+      <div class="col-12">{{ user | json }}</div>
     </ng-container>
   </div>
 </div>

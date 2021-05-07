@@ -5,7 +5,7 @@ import {UserService} from '../store/services/user.service';
 import {map} from 'rxjs/operators';
 
 @Component({
-  selector: 'dashboard',
+  selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
     //
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     console.log('dashboard on init');
     this.userService.getUsers();
   }

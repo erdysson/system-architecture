@@ -6,8 +6,7 @@
     "start": "./node_modules/.bin/ng serve",
     "build": "./node_modules/.bin/ng build",
     "test": "./node_modules/.bin/ng test",
-    "lint": "./node_modules/.bin/ng lint",
-    "e2e": "./node_modules/.bin/ng e2e"
+    "lint": "./node_modules/.bin/ng lint"
   },
   "private": true,
   "dependencies": {
@@ -23,16 +22,13 @@
     "@auth0/angular-jwt": "^5.0.2",
     "@ngrx/effects": "^10.1.2",
     "@ngrx/store": "^10.1.2",
-    "primeflex": "^2.0.0",
-    "primeicons": "^4.1.0",
-    "primeng": "^11.1.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1100.6",
-    "@angular/cli": "~11.0.6",
+    "@angular/cli": "^11.2.12",
     "@angular/compiler-cli": "~11.0.6",
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.11.1",
@@ -45,7 +41,6 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
-    "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
     "typescript": "~4.0.2"
