@@ -1,5 +1,7 @@
 #! /bin/sh
 
+BUILD_NUMBER=0
+
 echo 'Starting Cypress Test container...'
 
 npm install --only=development

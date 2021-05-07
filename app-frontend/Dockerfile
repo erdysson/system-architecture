@@ -10,10 +10,8 @@ COPY . .
 
 RUN npm run build
 
-FROM nginx:1.17.1-alpine
+FROM nginx:latest
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
 COPY --from=build /usr/src/app-frontend/dist/app-frontend /usr/share/nginx/html
-
-EXPOSE 4200
