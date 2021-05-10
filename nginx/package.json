@@ -1,0 +1,14 @@
+{
+  "name": "nginx",
+  "version": "1.0.0",
+  "scripts": {
+    "remove:image": "docker image rm nginx-load-balancer-local",
+    "build:image": "docker build -t nginx-load-balancer-local --no-cache -f local.Dockerfile .",
+    "prestart:container": "npm run build:image",
+    "start:container": "docker run -d -p 80:80 -p 443:443 --name=\"nginx-load-balancer-local-container\" -it nginx-load-balancer-local",
+    "stop:container": "docker stop nginx-load-balancer-local-container",
+    "poststop:container": "npm run remove:container",
+    "remove:container": "docker rm nginx-load-balancer-local-container",
+    "postremove:container": "npm run remove:image"
+  }
+}
