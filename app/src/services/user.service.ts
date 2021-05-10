@@ -6,14 +6,13 @@ import ErrnoException = NodeJS.ErrnoException;
 
 @Injectable()
 export class UserService {
-
     private readonly usersJsonDirectory: string = path.join(process.cwd(), 'data', 'users.json');
 
     private readonly filteredFields: Array<keyof IUser> = ['password'];
 
     private readUsers(): Promise<IUser[]> {
         return new Promise<IUser[]>((resolve, reject) => {
-            fs.readFile(this.usersJsonDirectory, {encoding: 'utf8'}, (err: ErrnoException|null, data: string) => {
+            fs.readFile(this.usersJsonDirectory, {encoding: 'utf8'}, (err: ErrnoException | null, data: string) => {
                 if (err) {
                     reject(err);
                 } else {
@@ -30,14 +29,19 @@ export class UserService {
     private writeUsers(users: IUser[]): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             try {
-                fs.writeFile(this.usersJsonDirectory, JSON.stringify(users), {encoding: 'utf8'}, (err: ErrnoException|null) => {
-                    if (err) {
-                        console.trace('Failed to write users due to', err);
-                        reject();
-                    } else {
-                        resolve();
+                fs.writeFile(
+                    this.usersJsonDirectory,
+                    JSON.stringify(users),
+                    {encoding: 'utf8'},
+                    (err: ErrnoException | null) => {
+                        if (err) {
+                            console.trace('Failed to write users due to', err);
+                            reject();
+                        } else {
+                            resolve();
+                        }
                     }
-                });
+                );
             } catch (e) {
                 console.trace('Failed to write users due to', e);
                 resolve();
@@ -45,7 +49,7 @@ export class UserService {
         });
     }
 
-    public filterFields(user: IUser|Partial<IUser>): Partial<IUser> {
+    public filterFields(user: IUser | Partial<IUser>): Partial<IUser> {
         this.filteredFields.forEach((field: keyof IUser) => {
             delete user[field];
         });
@@ -70,7 +74,7 @@ export class UserService {
             if (!filterFields) {
                 return mayBeUser;
             }
-            return this.filterFields(mayBeUser)
+            return this.filterFields(mayBeUser);
         });
     }
 
@@ -83,15 +87,24 @@ export class UserService {
             if (!filterFields) {
                 return mayBeUser;
             }
-            return this.filterFields(mayBeUser)
+            return this.filterFields(mayBeUser);
         });
     }
 
     public addUser(user: IUser): Promise<void> {
         return this.readUsers().then((users: IUser[]) => {
-            const maybeExistingUserWithIdOrUserName: IUser|null = users.find((eUser: IUser) => eUser.id === user.id || eUser.userName === user.userName);
+            const maybeExistingUserWithIdOrUserName: IUser | null = users.find(
+                (eUser: IUser) => eUser.id === user.id || eUser.userName === user.userName
+            );
             if (maybeExistingUserWithIdOrUserName) {
-                console.trace('User with id', user.id, 'or with userName', user.userName, 'already exists', maybeExistingUserWithIdOrUserName);
+                console.trace(
+                    'User with id',
+                    user.id,
+                    'or with userName',
+                    user.userName,
+                    'already exists',
+                    maybeExistingUserWithIdOrUserName
+                );
                 return Promise.reject();
             } else {
                 users.push(user);

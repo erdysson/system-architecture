@@ -4,10 +4,7 @@ import {Request} from 'express';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-
-    constructor(
-        private readonly authService: AuthService
-    ) {
+    constructor(private readonly authService: AuthService) {
         //
     }
 
@@ -15,7 +12,8 @@ export class AuthGuard implements CanActivate {
         const request = context.switchToHttp().getRequest<Request>();
         try {
             const accessToken: string = request.header('Authorization').replace('Bearer ', '');
-            return this.authService.validateToken(accessToken)
+            return this.authService
+                .validateToken(accessToken)
                 .then(() => {
                     return true;
                 })

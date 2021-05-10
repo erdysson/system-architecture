@@ -3,7 +3,8 @@ import {
     Body,
     Controller,
     NotFoundException,
-    Post, Res,
+    Post,
+    Res,
     UnauthorizedException
 } from '@nestjs/common';
 import {IUser} from '../../interfaces/user.interface';
@@ -14,11 +15,7 @@ import {Response} from 'express';
 
 @Controller('/auth')
 export class AuthController {
-
-    constructor(
-        private readonly authService: AuthService,
-        private readonly userService: UserService
-    ) {}
+    constructor(private readonly authService: AuthService, private readonly userService: UserService) {}
 
     register(@Body() body: IUser): Promise<void> {
         // todo : think about it
@@ -26,32 +23,41 @@ export class AuthController {
     }
 
     @Post('/login')
-    login(@Body() body: {userName: string, password: string}, @Res({passthrough: true}) response: Response): Promise<NotFoundException|BadRequestException|ILoginResponse> {
+    login(
+        @Body() body: {userName: string; password: string},
+        @Res({passthrough: true}) response: Response
+    ): Promise<NotFoundException | BadRequestException | ILoginResponse> {
         // todo : set cookie
         return this.userService.getUserByUserName(body.userName, false).then((user: IUser) => {
             if (!user) {
-                throw new NotFoundException({invalidField: 'userName', message: 'username does not exist'}, 'username does not exist');
+                throw new NotFoundException(
+                    {invalidField: 'userName', message: 'username does not exist'},
+                    'username does not exist'
+                );
             }
 
             if (user.password !== body.password) {
-                throw new BadRequestException({invalidField: 'password', message: 'password is incorrect'},'password is incorrect');
+                throw new BadRequestException(
+                    {invalidField: 'password', message: 'password is incorrect'},
+                    'password is incorrect'
+                );
             }
 
             return Promise.all([
                 this.authService.generateToken({id: user.id}, '1d'),
                 this.authService.generateToken({role: user.role}, '15m'),
-                this.authService.generateToken({userName: user.userName}, '1h'),
+                this.authService.generateToken({userName: user.userName}, '1h')
             ]).then(([clientId, accessToken, refreshToken]) => {
                 response.cookie('client_id', clientId, {
                     httpOnly: true,
                     secure: true,
-                    expires: new Date(Date.now() + (1000 * 60 * 60 * 24)) // 1 day
+                    expires: new Date(Date.now() + 1000 * 60 * 60 * 24) // 1 day
                 });
-                return{
+                return {
                     accessToken,
                     refreshToken
                 };
-            })
+            });
         });
     }
 
@@ -67,23 +73,24 @@ export class AuthController {
     }
 
     @Post('/refreshToken')
-    refreshToken(@Body() body: {token: string}): Promise<UnauthorizedException|IRefreshTokenResponse> {
-        return this.authService.validateToken(body.token)
+    refreshToken(@Body() body: {token: string}): Promise<UnauthorizedException | IRefreshTokenResponse> {
+        return this.authService
+            .validateToken(body.token)
             .then(() => {
                 const decoded: any = this.authService.decodeToken(body.token);
                 const userName: string = decoded.userName;
-                return this.userService.getUserByUserName(userName)
+                return this.userService
+                    .getUserByUserName(userName)
                     .then((user: Partial<IUser>) => {
-                        return this.authService.generateToken({role: user.role}, '15m')
-                            .then((token: string) => {
-                                return {
-                                    token
-                                };
-                            })
+                        return this.authService.generateToken({role: user.role}, '15m').then((token: string) => {
+                            return {
+                                token
+                            };
+                        });
                     })
-                .catch(() => {
-                    throw new UnauthorizedException('username is invalid');
-                })
+                    .catch(() => {
+                        throw new UnauthorizedException('username is invalid');
+                    });
             })
             .catch(() => {
                 throw new UnauthorizedException('token is invalid');

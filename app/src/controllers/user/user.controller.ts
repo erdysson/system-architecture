@@ -7,10 +7,7 @@ import {Cookie} from '../../decorators/cookie';
 @Controller('/api/users')
 @UseGuards(AuthGuard)
 export class UserController {
-
-    constructor(
-        private readonly userService: UserService
-    ) {
+    constructor(private readonly userService: UserService) {
         //
     }
 
@@ -26,14 +23,16 @@ export class UserController {
 
     @Post('/add')
     addUser(@Body() body: IUser): Promise<boolean> {
-        return this.userService.addUser(body)
+        return this.userService
+            .addUser(body)
             .then(() => true)
             .catch(() => false);
     }
 
     @Post('/delete')
     deleteUser(@Body() body: {id: string}): Promise<boolean> {
-        return this.userService.deleteUser(body.id)
+        return this.userService
+            .deleteUser(body.id)
             .then(() => true)
             .catch(() => false);
     }
@@ -41,7 +40,8 @@ export class UserController {
     // todo : fix all return false calls and throw appropriate error
     @Post('/edit')
     editUser(@Body() body: Partial<IUser>): Promise<boolean> {
-        return this.userService.editUser(body)
+        return this.userService
+            .editUser(body)
             .then(() => true)
             .catch(() => false);
     }

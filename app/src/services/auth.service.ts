@@ -7,14 +7,13 @@ import {VerifyErrors} from 'jsonwebtoken';
 
 @Injectable()
 export class AuthService {
-
     private readonly jwtDirectory: string = path.join(process.cwd(), 'config', 'jwt');
 
     // todo : generate clientId with userId and set as staticToken
 
     private getPublicKey(): Promise<string> {
         return new Promise<string>((resolve, reject) => {
-            fs.readFile(path.join(this.jwtDirectory, 'public.pem'), (err: ErrnoException|null, data: Buffer) => {
+            fs.readFile(path.join(this.jwtDirectory, 'public.pem'), (err: ErrnoException | null, data: Buffer) => {
                 if (err) {
                     console.trace('Can not read public key', err);
                     reject();
@@ -27,7 +26,7 @@ export class AuthService {
 
     private getPrivateKey(): Promise<string> {
         return new Promise<string>((resolve, reject) => {
-            fs.readFile(path.join(this.jwtDirectory, 'private.pem'), (err: ErrnoException|null, data: Buffer) => {
+            fs.readFile(path.join(this.jwtDirectory, 'private.pem'), (err: ErrnoException | null, data: Buffer) => {
                 if (err) {
                     console.trace('Can not read private key', err);
                     reject();
@@ -51,7 +50,8 @@ export class AuthService {
                     audience: 'https://localhost',
                     algorithm: 'RS256',
                     expiresIn
-                });
+                }
+            );
         });
     }
 
@@ -67,12 +67,13 @@ export class AuthService {
                         algorithms: ['RS256']
                     },
                     (error: VerifyErrors | null) => {
-                    if (error) {
-                        reject();
-                    } else {
-                        resolve();
+                        if (error) {
+                            reject();
+                        } else {
+                            resolve();
+                        }
                     }
-                });
+                );
             });
         });
     }
