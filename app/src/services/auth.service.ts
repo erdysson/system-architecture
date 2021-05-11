@@ -1,8 +1,8 @@
-import {Injectable} from '@nestjs/common';
-import * as jwt from 'jsonwebtoken';
 import * as fs from 'fs';
 import * as path from 'path';
-import ErrnoException = NodeJS.ErrnoException;
+
+import {Injectable} from '@nestjs/common';
+import * as jwt from 'jsonwebtoken';
 import {VerifyErrors} from 'jsonwebtoken';
 
 @Injectable()
@@ -13,27 +13,33 @@ export class AuthService {
 
     private getPublicKey(): Promise<string> {
         return new Promise<string>((resolve, reject) => {
-            fs.readFile(path.join(this.jwtDirectory, 'public.pem'), (err: ErrnoException | null, data: Buffer) => {
-                if (err) {
-                    console.trace('Can not read public key', err);
-                    reject();
-                } else {
-                    resolve(data.toString());
+            fs.readFile(
+                path.join(this.jwtDirectory, 'public.pem'),
+                (err: NodeJS.ErrnoException | null, data: Buffer) => {
+                    if (err) {
+                        console.trace('Can not read public key', err);
+                        reject();
+                    } else {
+                        resolve(data.toString());
+                    }
                 }
-            });
+            );
         });
     }
 
     private getPrivateKey(): Promise<string> {
         return new Promise<string>((resolve, reject) => {
-            fs.readFile(path.join(this.jwtDirectory, 'private.pem'), (err: ErrnoException | null, data: Buffer) => {
-                if (err) {
-                    console.trace('Can not read private key', err);
-                    reject();
-                } else {
-                    resolve(data.toString());
+            fs.readFile(
+                path.join(this.jwtDirectory, 'private.pem'),
+                (err: NodeJS.ErrnoException | null, data: Buffer) => {
+                    if (err) {
+                        console.trace('Can not read private key', err);
+                        reject();
+                    } else {
+                        resolve(data.toString());
+                    }
                 }
-            });
+            );
         });
     }
 

@@ -1,8 +1,9 @@
 import {Body, Controller, Get, Param, Post, UseGuards} from '@nestjs/common';
+
+import {Cookie} from '../../decorators/cookie';
+import {AuthGuard} from '../../guards/auth.guard';
 import {IUser} from '../../interfaces/user.interface';
 import {UserService} from '../../services/user.service';
-import {AuthGuard} from '../../guards/auth.guard';
-import {Cookie} from '../../decorators/cookie';
 
 @Controller('/api/users')
 @UseGuards(AuthGuard)
@@ -13,6 +14,7 @@ export class UserController {
 
     @Get()
     getUsers(@Cookie('client_id') clientId: string): Promise<Array<Partial<IUser>>> {
+        console.log('client id', clientId);
         return this.userService.getUsers();
     }
 

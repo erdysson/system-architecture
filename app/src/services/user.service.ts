@@ -1,7 +1,10 @@
-import {Injectable} from '@nestjs/common';
-import {IUser} from '../interfaces/user.interface';
-import * as path from 'path';
 import * as fs from 'fs';
+import * as path from 'path';
+
+import {Injectable} from '@nestjs/common';
+
+import {IUser} from '../interfaces/user.interface';
+
 import ErrnoException = NodeJS.ErrnoException;
 
 @Injectable()
@@ -56,7 +59,7 @@ export class UserService {
         return user;
     }
 
-    public getUsers(filterFields: boolean = true): Promise<Array<Partial<IUser>>> {
+    public getUsers(filterFields = true): Promise<Array<Partial<IUser>>> {
         return this.readUsers().then((users: IUser[]) => {
             if (!filterFields) {
                 return users;
@@ -65,7 +68,7 @@ export class UserService {
         });
     }
 
-    public getUserById(id: string, filterFields: boolean = true): Promise<Partial<IUser>> {
+    public getUserById(id: string, filterFields = true): Promise<Partial<IUser>> {
         return this.getUsers().then((users: Array<Partial<IUser>>) => {
             const mayBeUser: Partial<IUser> = users.find((user: Partial<IUser>) => user.id === id);
             if (!mayBeUser) {
@@ -78,7 +81,7 @@ export class UserService {
         });
     }
 
-    public getUserByUserName(userName: string, filterFields: boolean = true): Promise<Partial<IUser>> {
+    public getUserByUserName(userName: string, filterFields = true): Promise<Partial<IUser>> {
         return this.getUsers(false).then((users: Array<Partial<IUser>>) => {
             const mayBeUser: Partial<IUser> = users.find((user: Partial<IUser>) => user.userName === userName);
             if (!mayBeUser) {
@@ -122,7 +125,7 @@ export class UserService {
 
     public editUser(user: Partial<IUser>): Promise<void> {
         return this.readUsers().then((users: IUser[]) => {
-            for (let eUser of users) {
+            for (const eUser of users) {
                 if (eUser.id === user.id) {
                     user = Object.assign({}, eUser, user);
                     break;

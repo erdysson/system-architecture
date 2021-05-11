@@ -7,11 +7,12 @@ import {
     Res,
     UnauthorizedException
 } from '@nestjs/common';
+import {Response} from 'express';
+
+import {ILoginResponse, IRefreshTokenResponse} from '../../interfaces/auth.interface';
 import {IUser} from '../../interfaces/user.interface';
 import {AuthService} from '../../services/auth.service';
 import {UserService} from '../../services/user.service';
-import {ILoginResponse, IRefreshTokenResponse} from '../../interfaces/auth.interface';
-import {Response} from 'express';
 
 @Controller('/auth')
 export class AuthController {
