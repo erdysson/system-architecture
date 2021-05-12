@@ -67,7 +67,7 @@ export class AuthController {
     }
 
     @Post('/logout')
-    logout(@Res() response: Response): boolean {
+    logout(@Res({passthrough: true}) response: Response): boolean {
         try {
             response.cookie('client_id', '');
             return true;

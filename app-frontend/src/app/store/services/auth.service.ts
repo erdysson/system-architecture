@@ -57,6 +57,15 @@ export class AuthService {
     );
   }
 
+  public logOut(): Observable<boolean> {
+    return this.http$.post<boolean>(`${this.apiBase}/logout`, {}).pipe(
+      tap(() => {
+        this.deleteAccessToken();
+        this.deleteRefreshToken();
+      })
+    );
+  }
+
   public register(regData: IRegistrationPayload): Observable<boolean> {
     return this.http$.post<boolean>(`${this.apiBase}/register`, regData);
   }

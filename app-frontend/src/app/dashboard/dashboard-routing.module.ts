@@ -3,11 +3,18 @@ import {Routes, RouterModule} from '@angular/router';
 import {DashboardComponent} from './dashboard.component';
 import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
+import {UsersComponent} from './users/users.component';
 
 export const routes: Routes = [
   {
     path: '',
-    component: DashboardComponent
+    component: DashboardComponent,
+    children: [
+      {
+        path: 'users',
+        component: UsersComponent
+      }
+    ]
   }
 ];
 
@@ -18,7 +25,8 @@ export const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   declarations: [
-    DashboardComponent
+    DashboardComponent,
+    UsersComponent
   ]
 })
 export class DashboardRoutingModule {}

@@ -1,8 +1,22 @@
 <div class="dashboard">
-  <h2>Dashboard</h2>
-  <div class="card">
-    <ng-container *ngFor="let user of users$ | async">
-      <div class="col-12">{{ user | json }}</div>
-    </ng-container>
+  <div class="dashboard-menu">
+    <div class="dashboard-menu-group">
+      <div class="dashboard-menu-item">
+        <a routerLink="/">
+          <img src="assets/icons/sys-arch.svg" alt="sys arc">
+        </a>
+      </div>
+      <div class="dashboard-menu-item">
+        <a routerLink="/dashboard/users" routerLinkActive="active">
+          <i class="fa fa-user"></i>&nbsp;Users
+        </a>
+      </div>
+    </div>
+    <div class="dashboard-menu-group">
+      <div class="dashboard-menu-item" (click)="logout()"><i class="fa fa-power-off"></i>&nbsp;Logout</div>
+    </div>
+  </div>
+  <div class="dashboard-content">
+    <router-outlet></router-outlet>
   </div>
 </div>

@@ -15,7 +15,6 @@ export class UserController {
 
     @Get()
     getUsers(@Cookie('client_id') clientId: string): Promise<SchemaDocument<User>[]> {
-        console.log('client id', clientId);
         return this.userService.getUsers();
     }
 
