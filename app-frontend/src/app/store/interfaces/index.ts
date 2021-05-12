@@ -12,12 +12,25 @@ export interface ILoginPayload {
   password: string;
 }
 
+export interface IRegistrationPayload {
+  name: string;
+  lastName: string;
+  userName: string;
+  password: string;
+}
+
 export interface ILoginSuccessPayload {
   accessToken: string;
   refreshToken: string;
 }
 
 export interface ILoginFailurePayload {
+  invalidField: string|null;
+  message: string|null;
+  statusCode: number|null;
+}
+
+export interface IRegistrationFailurePayload {
   invalidField: string|null;
   message: string|null;
   statusCode: number|null;

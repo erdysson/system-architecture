@@ -1,7 +1,14 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
-import {IAppState, ILoginPayload, ILoginSuccessPayload, IRefreshTokenPayload, IRefreshTokenResponse} from '../interfaces';
+import {
+  IAppState,
+  ILoginPayload,
+  ILoginSuccessPayload,
+  IRefreshTokenPayload,
+  IRefreshTokenResponse,
+  IRegistrationPayload
+} from '../interfaces';
 import {LocalStorageService} from './local-storage.service';
 import {Router} from '@angular/router';
 import {TokenService} from './token.service';
@@ -42,12 +49,16 @@ export class AuthService {
   }
 
   public logIn(credentials: ILoginPayload): Observable<ILoginSuccessPayload> {
-    return this.http$.post<ILoginSuccessPayload>(this.apiBase + '/login', credentials).pipe(
+    return this.http$.post<ILoginSuccessPayload>(`${this.apiBase}/login`, credentials).pipe(
       tap((response: ILoginSuccessPayload) => {
         this.saveAccessToken(response.accessToken);
         this.saveRefreshToken(response.refreshToken);
       })
     );
+  }
+
+  public register(regData: IRegistrationPayload): Observable<boolean> {
+    return this.http$.post<boolean>(`${this.apiBase}/register`, regData);
   }
 
   public refreshToken(): Observable<IRefreshTokenResponse> {

@@ -1,3 +1,55 @@
 <div class="register">
-  register
+  <form #registerForm="ngForm" class="register-form" (ngSubmit)="register()">
+    <div class="register-form-img-wrapper">
+      <img src="assets/icons/sys-arch.svg" alt="system architecture">
+    </div>
+
+    <div class="register-form-row">
+      <label for="name">Name</label>
+      <input id="name"
+             type="text"
+             name="name"
+             autocomplete="off"
+             [(ngModel)]="name"
+             (ngModelChange)="clearError()"
+             [class.error]="error?.invalidField === 'name'">
+    </div>
+    <div *ngIf="error?.invalidField === 'name'" class="register-form-error">{{ error.message }}</div>
+    <div class="register-form-row">
+      <label for="lastName">Lastname</label>
+      <input id="lastName"
+             type="text"
+             name="lastName"
+             autocomplete="off"
+             [(ngModel)]="lastName"
+             (ngModelChange)="clearError()"
+             [class.error]="error?.invalidField === 'lastName'">
+    </div>
+    <div *ngIf="error?.invalidField === 'lastName'" class="register-form-error">{{ error.message }}</div>
+    <div class="register-form-row">
+      <label for="userName">Username</label>
+      <input id="userName"
+             type="text"
+             name="userName"
+             autocomplete="off"
+             [(ngModel)]="userName"
+             (ngModelChange)="clearError()"
+             [class.error]="error?.invalidField === 'userName'">
+    </div>
+    <div *ngIf="error?.invalidField === 'userName'" class="register-form-error">{{ error.message }}</div>
+    <div class="register-form-row">
+      <label for="password">Password</label>
+      <input id="password"
+             type="password"
+             name="password"
+             autocomplete="off"
+             [(ngModel)]="password"
+             (ngModelChange)="clearError()"
+             [class.error]="error?.invalidField === 'password'">
+    </div>
+    <div *ngIf="error?.invalidField === 'password'" class="register-form-error">{{ error.message }}</div>
+    <div class="register-form-row">
+      <button type="submit" class="register-form-submit-button" [disabled]="!name || !lastName || !userName || !password">Register</button>
+    </div>
+  </form>
 </div>

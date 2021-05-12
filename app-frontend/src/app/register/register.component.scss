@@ -1,3 +1,69 @@
-.register {
+@import "../../styles/color-palette";
+@import "../../styles/forms";
 
+.register {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+
+  .register-form {
+    background-color: $color-primary-5;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    padding: 20px;
+
+    .register-form-img-wrapper {
+      align-items: center;
+      display: flex;
+      justify-content: center;
+
+      img {
+        width: 50px;
+      }
+    }
+
+    .register-form-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      padding: 10px 0;
+
+      label {
+        align-items: center;
+        color: $color-primary-3;
+        display: flex;
+        font-size: 14px;
+        margin-right: 20px;
+      }
+
+      input {
+        @extend %input-field;
+
+        &.error {
+          border: solid 1px $color-primary-6;
+        }
+      }
+
+      button {
+        @extend %button-primary-2;
+      }
+
+      .register-form-registration-link {
+        color: $color-primary-2;
+        font-size: 13px;
+      }
+    }
+
+    .register-form-error {
+      color: $color-primary-6;
+      display: flex;
+      font-size: 13px;
+      padding: 6px 0;
+    }
+  }
 }

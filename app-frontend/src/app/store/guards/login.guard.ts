@@ -14,7 +14,6 @@ export class LoginGuard implements CanActivate {
     const isAuthenticated: boolean = this.authService.isAuthenticated();
     if (isAuthenticated) {
       // redirect to landing page
-      console.log('login guard redirects to landing page');
       return this.router.navigate(['/']);
     } else {
       return true;
