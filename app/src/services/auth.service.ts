@@ -1,3 +1,5 @@
+import {Buffer} from 'buffer';
+import * as crypto from 'crypto';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -5,9 +7,13 @@ import {Injectable} from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
 import {VerifyErrors} from 'jsonwebtoken';
 
+import {User} from '../schemas/user.schema';
+
 @Injectable()
 export class AuthService {
     private readonly jwtDirectory: string = path.join(process.cwd(), 'config', 'jwt');
+
+    private readonly passwordSaltRounds = 12;
 
     // todo : generate clientId with userId and set as staticToken
 
@@ -43,7 +49,7 @@ export class AuthService {
         });
     }
 
-    public generateToken(payload: any, expiresIn: string): Promise<string> {
+    public generateToken(payload: Partial<User>, expiresIn: string): Promise<string> {
         return this.getPrivateKey().then((privateKey: string) => {
             return jwt.sign(
                 payload,
@@ -84,7 +90,27 @@ export class AuthService {
         });
     }
 
-    public decodeToken(token: string): any {
+    public decodeToken(token: string): Partial<User> {
         return jwt.decode(token, {json: true});
+    }
+
+    public generateSalt(): string {
+        return crypto
+            .randomBytes(Math.ceil(this.passwordSaltRounds / 2))
+            .toString('hex')
+            .slice(0, this.passwordSaltRounds);
+    }
+
+    public generatePassword(passwordStr: string, salt: string): string {
+        const hash = crypto.createHmac('sha512', salt);
+        hash.update(passwordStr);
+        const password = hash.digest('hex');
+        return `${salt}:${password}`;
+    }
+
+    public validatePassword(passwordStr: string, storedPassword: string): boolean {
+        const [salt, password] = storedPassword.split(':');
+        const temporaryPassword = this.generatePassword(passwordStr, salt).split(':')[1];
+        return temporaryPassword === password;
     }
 }

@@ -2,6 +2,7 @@
 - implement admin app in nest
 - implement admin end points
 - implement admin frontend
+
 - integrate mongo db for persistence layer
 - integrate redis cache for user sessions
 - generate jwt certs on run

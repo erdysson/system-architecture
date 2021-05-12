@@ -1,0 +1,13 @@
+{
+  "name": "mongodb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "mongodb:start": "docker run -d -p 27017:27017 --name=\"mongodb-local-container\" mongo:latest",
+    "mongodb:open-shell": "docker exec -it mongodb-local-container bash",
+    "mongodb:stop": "docker stop mongodb-local-container"
+  },
+  "author": "",
+  "license": "ISC"
+}

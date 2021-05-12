@@ -8,9 +8,12 @@ import {
     UnauthorizedException
 } from '@nestjs/common';
 import {Response} from 'express';
+import * as uuid from 'uuid';
 
+import {Role} from '../../enums/role.enum';
 import {ILoginResponse, IRefreshTokenResponse} from '../../interfaces/auth.interface';
-import {IUser} from '../../interfaces/user.interface';
+import {SchemaDocument} from '../../interfaces/schema.interface';
+import {User} from '../../schemas/user.schema';
 import {AuthService} from '../../services/auth.service';
 import {UserService} from '../../services/user.service';
 
@@ -18,18 +21,19 @@ import {UserService} from '../../services/user.service';
 export class AuthController {
     constructor(private readonly authService: AuthService, private readonly userService: UserService) {}
 
-    register(@Body() body: IUser): Promise<void> {
-        // todo : think about it
-        return Promise.resolve();
+    @Post('/register')
+    register(@Body() body: Omit<User, 'id' | 'role'>): Promise<void> {
+        const password = this.authService.generatePassword(body.password, this.authService.generateSalt());
+        const id = uuid.v4();
+        return this.userService.registerUser({...body, id, password, role: Role.USER});
     }
 
     @Post('/login')
     login(
-        @Body() body: {userName: string; password: string},
+        @Body() body: Pick<User, 'userName' | 'password'>,
         @Res({passthrough: true}) response: Response
     ): Promise<NotFoundException | BadRequestException | ILoginResponse> {
-        // todo : set cookie
-        return this.userService.getUserByUserName(body.userName, false).then((user: IUser) => {
+        return this.userService.getUserByUserName(body.userName, true).then((user: SchemaDocument<User>) => {
             if (!user) {
                 throw new NotFoundException(
                     {invalidField: 'userName', message: 'username does not exist'},
@@ -37,7 +41,7 @@ export class AuthController {
                 );
             }
 
-            if (user.password !== body.password) {
+            if (!this.authService.validatePassword(body.password, user.password)) {
                 throw new BadRequestException(
                     {invalidField: 'password', message: 'password is incorrect'},
                     'password is incorrect'
@@ -78,11 +82,11 @@ export class AuthController {
         return this.authService
             .validateToken(body.token)
             .then(() => {
-                const decoded: any = this.authService.decodeToken(body.token);
+                const decoded = this.authService.decodeToken(body.token);
                 const userName: string = decoded.userName;
                 return this.userService
                     .getUserByUserName(userName)
-                    .then((user: Partial<IUser>) => {
+                    .then((user: SchemaDocument<User>) => {
                         return this.authService.generateToken({role: user.role}, '15m').then((token: string) => {
                             return {
                                 token
