@@ -1,13 +1,13 @@
-import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
-import {DashboardComponent} from './dashboard.component';
-import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
+import {NgModule} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {RouterModule, Routes} from '@angular/router';
+import {RegisterComponent} from './register.component';
 
 export const routes: Routes = [
   {
     path: '',
-    component: DashboardComponent
+    component: RegisterComponent
   }
 ];
 
@@ -18,7 +18,7 @@ export const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   declarations: [
-    DashboardComponent
+    RegisterComponent
   ]
 })
-export class DashboardRoutingModule {}
+export class RegisterRoutingModule {}

@@ -1,5 +1,8 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
+import {AppStoreModule} from './store/app-store.module';
+import {AuthGuard} from './store/guards/auth.guard';
+import {LoginGuard} from './store/guards/login.guard';
 
 const routes: Routes = [
   {
@@ -9,11 +12,18 @@ const routes: Routes = [
   },
   {
     path: 'dashboard',
-    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
+    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'login',
-    loadChildren: () => import('./login/login.module').then(m => m.LoginModule)
+    loadChildren: () => import('./login/login.module').then(m => m.LoginModule),
+    canActivate: [LoginGuard]
+  },
+  {
+    path: 'register',
+    loadChildren: () => import('./register/register.module').then(m => m.RegisterModule),
+    canActivate: []
   },
   {
     path: '**',
@@ -23,6 +33,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
+    AppStoreModule,
     RouterModule.forRoot(routes)
   ],
   exports: [
