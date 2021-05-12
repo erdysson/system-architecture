@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "start:services": "docker compose -f local.docker-compose.yml -d up",
+    "stop:services": "docker compose -f local.docker-compose.yml down"
+  },
   "keywords": [],
   "author": "Erdi Taner Gokalp",
   "license": "ISC"

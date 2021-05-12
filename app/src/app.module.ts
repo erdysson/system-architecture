@@ -16,6 +16,9 @@ import {UserService} from './services/user.service';
                 schema: UserSchema
             }
         ]),
+        // enable for docker compose
+        // MongooseModule.forRoot('mongodb://mongodb:27017/system-architecture')
+        // enable for local dev
         MongooseModule.forRoot('mongodb://127.0.0.1:27017/system-architecture')
     ],
     controllers: [AuthController, UserController],

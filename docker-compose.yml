@@ -1,8 +1,17 @@
-version: "0.0.1"
+version: "3"
 services:
+  mongodb:
+    image: mongo
+    container_name: "mongodb-container"
+    expose:
+      - 27017
   nest-app:
     build: ./app
     container_name: "nest-app-container"
+    depends_on:
+      - mongodb
+    links:
+      - mongodb
     expose:
       - 3000
   angular-app:
