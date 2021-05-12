@@ -7,3 +7,4 @@
 - generate jwt certs on run
 - migrate to github actions from jenkins
 - create config files for everything generated like token config and etc
+- implement toast for errors

@@ -1,0 +1,52 @@
+@import "./color-palette";
+
+%input-field {
+  background-color: $color-primary-4;
+  border: none;
+  border-radius: 3px;
+  outline: none;
+  padding: 8px 4px;
+}
+
+%button {
+  align-items: center;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  padding: 8px;
+}
+
+%button-primary-1 {
+  @extend %button;
+  background-color: $color-primary-1;
+  border: solid 1px $color-primary-1;
+  color: $color-primary-5;
+}
+
+%button-primary-2 {
+  @extend %button;
+  background-color: $color-primary-2;
+  border: solid 1px $color-primary-2;
+  color: $color-primary-5;
+}
+
+%button-primary-3 {
+  @extend %button;
+  background-color: $color-primary-3;
+  border: solid 1px $color-primary-3;
+  color: $color-primary-1;
+}
+
+%button-primary-4 {
+  @extend %button;
+  background-color: $color-primary-4;
+  border: solid 1px $color-primary-1;
+  color: $color-primary-1;
+}
+
+%button-primary-5 {
+  @extend %button;
+  background-color: $color-primary-5;
+  border: solid 1px $color-primary-1;
+  color: $color-primary-1;
+}

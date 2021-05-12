@@ -13,11 +13,11 @@ import {ILoginFailurePayload} from '../store/interfaces';
 })
 export class LoginComponent implements OnDestroy {
 
-  public userName = '';
+  userName = '';
 
-  public password = '';
+  password = '';
 
-  public error: ILoginFailurePayload|null = null;
+  error: ILoginFailurePayload|null = null;
 
   private readonly destroy$: Subject<void> = new Subject<void>();
 
@@ -28,7 +28,7 @@ export class LoginComponent implements OnDestroy {
     //
   }
 
-  public login(): void {
+  login(): void {
     this.error = null;
     this.authService.logIn({userName: this.userName, password: this.password}).pipe(
       takeUntil(this.destroy$)
@@ -38,6 +38,10 @@ export class LoginComponent implements OnDestroy {
       console.log('error while login', errorResponse.error);
       this.error = errorResponse.error;
     });
+  }
+
+  clearError(): void {
+    this.error = null;
   }
 
   ngOnDestroy(): void {

@@ -1,19 +1,36 @@
-<div class="login d-flex flex-row jc-center ai-center">
-  <div class="d-flex-inline p-card jc-center ai-center login-box">
-    <div class="d-flex fluid formgrid grid">
-      <div class="field col-12">
-        <label for="userName">User Name</label>
-        <input id="userName" type="text" [(ngModel)]="userName">
-        <span *ngIf="error?.invalidField === 'userName'" class="error user-name-error">{{ error.message }}</span>
-      </div>
-      <div class="field col-12">
-        <label for="password">Password</label>
-        <input id="password" type="password" [(ngModel)]="password">
-        <span *ngIf="error?.invalidField === 'password'" class="error password-error">{{ error.message }}</span>
-      </div>
-      <div class="col-12">
-        <button type="button" class="submit-btn" (click)="login()" [disabled]="!userName || !password">Login</button>
-      </div>
+<div class="login">
+  <form #loginForm="ngForm" class="login-form" (ngSubmit)="login()">
+    <div class="login-form-img-wrapper">
+      <img src="assets/icons/sys-arch.svg">
     </div>
-  </div>
+
+    <div class="login-form-row">
+      <label for="userName">Username</label>
+      <input id="userName"
+             type="text"
+             name="userName"
+             autocomplete="off"
+             [(ngModel)]="userName"
+             (ngModelChange)="clearError()"
+             [class.error]="error?.invalidField === 'userName'">
+    </div>
+    <div *ngIf="error?.invalidField === 'userName'" class="login-form-error">{{ error.message }}</div>
+    <div class="login-form-row">
+      <label for="password">Password</label>
+      <input id="password"
+             type="password"
+             name="password"
+             autocomplete="off"
+             [(ngModel)]="password"
+             (ngModelChange)="clearError()"
+             [class.error]="error?.invalidField === 'password'">
+    </div>
+    <div *ngIf="error?.invalidField === 'password'" class="login-form-error">{{ error.message }}</div>
+    <div class="login-form-row">
+      <button type="submit" class="login-form-submit-button" [disabled]="!userName || !password">Login</button>
+    </div>
+    <div class="login-form-row">
+      <a class="login-form-registration-link" routerLink="/register">Not a member? Register</a>
+    </div>
+  </form>
 </div>
