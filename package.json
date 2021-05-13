@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:services": "docker compose -f local.docker-compose.yml -d up",
-    "stop:services": "docker compose -f local.docker-compose.yml down"
+    "start:services": "docker compose -f local.docker-compose.yml up -d",
+    "stop:services": "docker compose -f local.docker-compose.yml down",
+    "poststop:services": "docker image rm system-architecture_nginx-load-balancer"
   },
   "keywords": [],
   "author": "Erdi Taner Gokalp",
