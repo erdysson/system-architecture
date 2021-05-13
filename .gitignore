@@ -1,2 +1,6 @@
-# Created by .ignore support plugin (hsz.mobi)
+# no idea directories
 .idea
+# ignore mongodb volume
+data/mongodb/**/*
+# except for .gitkeep file
+!data/mongodb/.gitkeep
