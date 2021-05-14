@@ -1,7 +1,10 @@
 import {Body, Controller, Get, Param, Post, UseGuards} from '@nestjs/common';
 
 import {Cookie} from '../../decorators/cookie';
+import {Roles} from '../../decorators/roles';
+import {Role} from '../../enums/role.enum';
 import {AuthGuard} from '../../guards/auth.guard';
+import {RolesGuard} from '../../guards/roles.guard';
 import {SchemaDocument} from '../../interfaces/schema.interface';
 import {User} from '../../schemas/user.schema';
 import {UserService} from '../../services/user.service';
@@ -14,6 +17,8 @@ export class UserController {
     }
 
     @Get()
+    @UseGuards(RolesGuard)
+    @Roles(Role.USER)
     getUsers(@Cookie('client_id') clientId: string): Promise<SchemaDocument<User>[]> {
         return this.userService.getUsers();
     }
@@ -23,15 +28,9 @@ export class UserController {
         return this.userService.getUserById(id);
     }
 
-    // @Post('/add')
-    // addUser(@Body() body: Omit<User, 'id' | 'password'>): Promise<boolean> {
-    //     return this.userService
-    //         .registerUser(body)
-    //         .then(() => true)
-    //         .catch(() => false);
-    // }
-
     @Post('/delete')
+    @UseGuards(RolesGuard)
+    @Roles(Role.ADMIN, Role.SUPER_ADMIN)
     deleteUser(@Body() body: {id: string}): Promise<boolean> {
         return this.userService
             .deleteUser(body.id)

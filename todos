@@ -1,10 +1,21 @@
+- add roles middleware
+- pass current user to the FE
+- integrate it with redis
+- switch from jenkins to github api
+- move all eslint and resource stuff to the root
+- use eslint in angular
+- check swagger
+
 - separate auth layer in backend
 - implement admin app in nest
 - implement admin end points
 - implement admin frontend
 
-- integrate redis cache for user sessions
 - generate jwt certs on run
-- migrate to github actions from jenkins
 - create config files for everything generated like token config and etc
 - implement toast for errors
+
+TODO :: Learn In Depth
+- kubernetes
+- nginx
+- mongodb
