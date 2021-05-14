@@ -15,8 +15,6 @@ export class AuthService {
 
     private readonly passwordSaltRounds = 12;
 
-    // todo : generate clientId with userId and set as staticToken
-
     private getPublicKey(): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             fs.readFile(
