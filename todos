@@ -1,4 +1,3 @@
-- add roles middleware
 - pass current user to the FE
 - integrate it with redis
 - switch from jenkins to github api

@@ -4,9 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:services": "docker compose -f local.docker-compose.yml up -d",
-    "stop:services": "docker compose -f local.docker-compose.yml down",
-    "poststop:services": "docker image rm system-architecture_nginx-load-balancer"
+    "start:services:local": "docker compose -f local.docker-compose.yml up -d",
+    "stop:services:local": "docker compose -f local.docker-compose.yml down",
+    "poststop:services:local": "docker image rm system-architecture_nginx-proxy",
+    "start:all:docker": "docker compose -f docker-compose.yml up -d",
+    "stop:all:docker": "docker compose -f docker-compose.yml down",
+    "poststop:all:docker": "docker image rm system-architecture_nest-app && docker image rm system-architecture_angular-app && docker image rm system-architecture_nginx-proxy"
   },
   "keywords": [],
   "author": "Erdi Taner Gokalp",

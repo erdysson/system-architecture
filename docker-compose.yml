@@ -1,5 +1,10 @@
 version: "3"
 services:
+  redis-cache:
+    image: redis
+    container_name: "redis-cache-container"
+    expose:
+      - 6379
   mongodb:
     image: mongo
     container_name: "mongodb-container"
@@ -10,8 +15,10 @@ services:
     container_name: "nest-app-container"
     depends_on:
       - mongodb
+      - redis-cache
     links:
       - mongodb
+      - redis-cache
     expose:
       - 3000
   angular-app:
@@ -19,9 +26,9 @@ services:
     container_name: "angular-app-container"
     expose:
       - 4200
-  nginx-load-balancer:
+  nginx-proxy:
     build: ./nginx
-    container_name: "nginx-load-balancer-container"
+    container_name: "nginx-proxy-container"
     ports:
       - 80:80
       - 443:443

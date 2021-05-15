@@ -1,5 +1,10 @@
 version: "3"
 services:
+  redis-cache:
+    image: redis
+    container_name: "redis-cache-local-container"
+    ports:
+      - 6379:6379
   mongodb:
     image: mongo
     container_name: "mongodb-local-container"
@@ -7,11 +12,11 @@ services:
     - ./data/mongodb:/data/db
     ports:
       - 27017:27017
-  nginx-load-balancer:
+  nginx-proxy:
     build:
       context: ./nginx
       dockerfile: local.Dockerfile
-    container_name: "nginx-load-balancer-local-container"
+    container_name: "nginx-proxy-local-container"
     ports:
       - 80:80
       - 443:443
