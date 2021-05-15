@@ -12,8 +12,10 @@ RUN npm run build
 
 FROM node:14.16-alpine
 
-ENV NODE_ENV=production
+ENV NODE_ENV=docker
 
 COPY --from=build /usr/src/app ./
+
+COPY env env
 
 CMD ["npm", "run", "start:prod"]

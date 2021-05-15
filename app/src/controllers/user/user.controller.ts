@@ -7,19 +7,22 @@ import {AuthGuard} from '../../guards/auth.guard';
 import {RolesGuard} from '../../guards/roles.guard';
 import {SchemaDocument} from '../../interfaces/schema.interface';
 import {User} from '../../schemas/user.schema';
+import {CacheService} from '../../services/cache.service';
 import {UserService} from '../../services/user.service';
 
 @Controller('/api/users')
 @UseGuards(AuthGuard)
 export class UserController {
-    constructor(private readonly userService: UserService) {
+    constructor(private readonly cacheService: CacheService, private readonly userService: UserService) {
         //
     }
 
     @Get()
     @UseGuards(RolesGuard)
     @Roles(Role.USER)
-    getUsers(@Cookie('client_id') clientId: string): Promise<SchemaDocument<User>[]> {
+    async getUsers(@Cookie('client_id') clientId: string): Promise<SchemaDocument<User>[]> {
+        const token = await this.cacheService.getAsync(clientId);
+        console.log('access token from client id', token);
         return this.userService.getUsers();
     }
 

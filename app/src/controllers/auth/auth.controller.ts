@@ -15,11 +15,16 @@ import {ILoginResponse, IRefreshTokenResponse} from '../../interfaces/auth.inter
 import {SchemaDocument} from '../../interfaces/schema.interface';
 import {User} from '../../schemas/user.schema';
 import {AuthService} from '../../services/auth.service';
+import {CacheService} from '../../services/cache.service';
 import {UserService} from '../../services/user.service';
 
 @Controller('/auth')
 export class AuthController {
-    constructor(private readonly authService: AuthService, private readonly userService: UserService) {}
+    constructor(
+        private readonly authService: AuthService,
+        private readonly userService: UserService,
+        private readonly cacheService: CacheService
+    ) {}
 
     @Post('/register')
     register(@Body() body: Omit<User, 'id' | 'role'>): Promise<void> {
@@ -52,12 +57,13 @@ export class AuthController {
                 this.authService.generateToken({id: user.id}, '1d'),
                 this.authService.generateToken({role: user.role}, '15m'),
                 this.authService.generateToken({userName: user.userName}, '1h')
-            ]).then(([clientId, accessToken, refreshToken]) => {
+            ]).then(async ([clientId, accessToken, refreshToken]) => {
                 response.cookie('client_id', clientId, {
                     httpOnly: true,
                     secure: true,
                     expires: new Date(Date.now() + 1000 * 60 * 60 * 24) // 1 day
                 });
+                await this.cacheService.setAsync(clientId, accessToken);
                 return {
                     accessToken,
                     refreshToken
