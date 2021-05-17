@@ -6,6 +6,8 @@
   "scripts": {
     "start:services:local": "docker compose -f local.docker-compose.yml up -d",
     "stop:services:local": "docker compose -f local.docker-compose.yml down",
+    "start:be:local": "cd app && npm run start:dev",
+    "start:fe:local": "cd app-frontend && npm run start",
     "poststop:services:local": "docker image rm system-architecture_nginx-proxy",
     "start:all:docker": "docker compose -f docker-compose.yml up -d",
     "stop:all:docker": "docker compose -f docker-compose.yml down",
