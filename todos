@@ -1,5 +1,10 @@
-- pass current user to the FE
 - integrate it with redis
+- add missing interfaces and ui elements in fe
+- add mongo validations to the fields
+- check mongo error mapper
+- add createdAt, modifiedAt and lastLogin fields to the db entries
+- validate request body params
+
 - switch from jenkins to github api
 - move all eslint and resource stuff to the root
 - use eslint in angular
