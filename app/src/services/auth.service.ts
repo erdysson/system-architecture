@@ -4,16 +4,27 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 import {Injectable} from '@nestjs/common';
+import {CookieOptions} from 'express';
 import * as jwt from 'jsonwebtoken';
 import {VerifyErrors} from 'jsonwebtoken';
-
-import {User} from '../schemas/user.schema';
 
 @Injectable()
 export class AuthService {
     private readonly jwtDirectory: string = path.join(process.cwd(), 'config', 'jwt');
 
+    private readonly issuer = 'egoekalp';
+    private readonly algorithm = 'RS256';
+    private readonly passphrase = 'egoekalp';
+
+    private readonly audience = 'https://localhost';
+
     private readonly passwordSaltRounds = 12;
+
+    private readonly clientIdTokenExpires = new Date(Date.now() + 1000 * 60 * 60 * 24); // 1 day
+
+    public readonly clientIdExpiresIn = '1d';
+    public readonly accessTokenExpiresIn = '15m';
+    public readonly refreshTokenExpiresIn = '1h';
 
     private getPublicKey(): Promise<string> {
         return new Promise<string>((resolve, reject) => {
@@ -47,49 +58,48 @@ export class AuthService {
         });
     }
 
-    public generateToken(payload: Partial<User>, expiresIn: string): Promise<string> {
-        return this.getPrivateKey().then((privateKey: string) => {
-            return jwt.sign(
-                payload,
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    public async signJWT<T extends object>(payload: T, expiresIn: string): Promise<string> {
+        const pk = await this.getPrivateKey();
+        return jwt.sign(
+            payload,
+            {
+                key: pk,
+                passphrase: this.passphrase
+            },
+            {
+                issuer: this.issuer,
+                audience: this.audience,
+                algorithm: this.algorithm,
+                expiresIn
+            }
+        );
+    }
+
+    public decodeJWT<T>(token: string): T {
+        return jwt.decode(token, {json: true}) as T;
+    }
+
+    public async verifyJWT(token: string): Promise<void> {
+        const pk = await this.getPublicKey();
+        return new Promise<void>((resolve, reject) => {
+            jwt.verify(
+                token,
+                pk,
                 {
-                    key: privateKey,
-                    passphrase: 'egoekalp'
+                    issuer: this.issuer,
+                    audience: this.audience,
+                    algorithms: [this.algorithm]
                 },
-                {
-                    issuer: 'egoekalp',
-                    audience: 'https://localhost',
-                    algorithm: 'RS256',
-                    expiresIn
+                (error: VerifyErrors | null) => {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        resolve();
+                    }
                 }
             );
         });
-    }
-
-    public validateToken(token: string): Promise<void> {
-        return this.getPublicKey().then((publicKey: string) => {
-            return new Promise<void>((resolve, reject) => {
-                jwt.verify(
-                    token,
-                    publicKey,
-                    {
-                        issuer: 'egoekalp',
-                        audience: 'https://localhost',
-                        algorithms: ['RS256']
-                    },
-                    (error: VerifyErrors | null) => {
-                        if (error) {
-                            reject();
-                        } else {
-                            resolve();
-                        }
-                    }
-                );
-            });
-        });
-    }
-
-    public decodeToken(token: string): Partial<User> {
-        return jwt.decode(token, {json: true});
     }
 
     public generateSalt(): string {
@@ -110,5 +120,14 @@ export class AuthService {
         const [salt, password] = storedPassword.split(':');
         const temporaryPassword = this.generatePassword(passwordStr, salt).split(':')[1];
         return temporaryPassword === password;
+    }
+
+    public getCookieOptions(): CookieOptions {
+        return {
+            httpOnly: true,
+            secure: true,
+            expires: this.clientIdTokenExpires,
+            sameSite: 'strict'
+        };
     }
 }

@@ -37,9 +37,14 @@ mongoose
             id: uuid.v4(),
             name: 'Erdi Taner',
             lastName: 'Gokalp',
+            email: 'erdi.taner.gokalp@gmail.com',
+            gender: 0,
             userName: 'egokalp',
             password: password,
-            role: 2
+            roles: [2],
+            createdAt: new Date(),
+            modifiedAt: new Date()
+            // lastLoginAt: new Date()
         };
 
         users

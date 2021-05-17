@@ -1,10 +1,4 @@
-import {
-    CanActivate,
-    ExecutionContext,
-    Injectable,
-    InternalServerErrorException,
-    UnauthorizedException
-} from '@nestjs/common';
+import {CanActivate, ExecutionContext, Injectable, UnauthorizedException} from '@nestjs/common';
 import {Reflector} from '@nestjs/core';
 import {Request} from 'express';
 
@@ -16,20 +10,22 @@ import {AuthService} from '../services/auth.service';
 export class RolesGuard implements CanActivate {
     constructor(private readonly reflector: Reflector, private readonly authService: AuthService) {}
 
-    canActivate(context: ExecutionContext): boolean {
+    async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = context.switchToHttp().getRequest<Request>();
         const roles = this.reflector.get<Role[]>('roles', context.getHandler());
 
-        let decodedAccessToken: Partial<User>;
-        let hasAccess: boolean;
-
+        let accessToken: string;
+        // verify access token
         try {
-            const accessToken: string = request.header('Authorization').replace('Bearer ', '');
-            decodedAccessToken = this.authService.decodeToken(accessToken);
-            hasAccess = roles.indexOf(decodedAccessToken.role) > -1;
+            accessToken = request.header('Authorization').replace('Bearer ', '');
+            // verify access token
+            await this.authService.verifyJWT(accessToken);
         } catch (e) {
-            throw new InternalServerErrorException({message: 'cannot check authorization level'});
+            throw new UnauthorizedException({message: 'token is invalid'});
         }
+        // check the access rights
+        const decodedAccessToken: Pick<User, 'roles'> = this.authService.decodeJWT(accessToken);
+        const hasAccess = !roles || decodedAccessToken.roles.some((role: Role) => roles.indexOf(role) > -1);
 
         if (hasAccess) {
             return true;

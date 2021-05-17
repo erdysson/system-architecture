@@ -2,16 +2,25 @@ import {
     BadRequestException,
     Body,
     Controller,
+    InternalServerErrorException,
     NotFoundException,
     Post,
     Res,
-    UnauthorizedException
+    UnauthorizedException,
+    UseGuards
 } from '@nestjs/common';
 import {Response} from 'express';
 import * as uuid from 'uuid';
 
 import {Role} from '../../enums/role.enum';
-import {ILoginResponse, IRefreshTokenResponse} from '../../interfaces/auth.interface';
+import {SessionGuard} from '../../guards/session.guard';
+import {
+    ILoginResponse,
+    IRefreshTokenRequest,
+    IRefreshTokenResponse,
+    LoginUser,
+    RegUser
+} from '../../interfaces/auth.interface';
 import {SchemaDocument} from '../../interfaces/schema.interface';
 import {User} from '../../schemas/user.schema';
 import {AuthService} from '../../services/auth.service';
@@ -27,55 +36,60 @@ export class AuthController {
     ) {}
 
     @Post('/register')
-    register(@Body() body: Omit<User, 'id' | 'role'>): Promise<void> {
-        const password = this.authService.generatePassword(body.password, this.authService.generateSalt());
-        const id = uuid.v4();
-        return this.userService.registerUser({...body, id, password, role: Role.USER});
+    register(@Body() body: RegUser): Promise<void> {
+        const saltedPassword = this.authService.generatePassword(body.password, this.authService.generateSalt());
+        return this.userService.registerUser({
+            ...body,
+            id: uuid.v4(),
+            password: saltedPassword,
+            roles: [Role.USER],
+            createdAt: new Date(),
+            modifiedAt: new Date()
+        });
     }
 
     @Post('/login')
-    login(
-        @Body() body: Pick<User, 'userName' | 'password'>,
+    async login(
+        @Body() body: LoginUser,
         @Res({passthrough: true}) response: Response
     ): Promise<NotFoundException | BadRequestException | ILoginResponse> {
-        return this.userService.getUserByUserName(body.userName, true).then((user: SchemaDocument<User>) => {
-            if (!user) {
-                throw new NotFoundException(
-                    {invalidField: 'userName', message: 'username does not exist'},
-                    'username does not exist'
-                );
-            }
+        const user: SchemaDocument<User> = await this.userService.getUserByUserName(body.userName, true);
 
-            if (!this.authService.validatePassword(body.password, user.password)) {
-                throw new BadRequestException(
-                    {invalidField: 'password', message: 'password is incorrect'},
-                    'password is incorrect'
-                );
-            }
+        if (!user) {
+            throw new NotFoundException(
+                {invalidField: 'userName', message: 'username does not exist'},
+                'username does not exist'
+            );
+        }
 
-            return Promise.all([
-                this.authService.generateToken({id: user.id}, '1d'),
-                this.authService.generateToken({role: user.role}, '15m'),
-                this.authService.generateToken({userName: user.userName}, '1h')
-            ]).then(async ([clientId, accessToken, refreshToken]) => {
-                response.cookie('client_id', clientId, {
-                    httpOnly: true,
-                    secure: true,
-                    expires: new Date(Date.now() + 1000 * 60 * 60 * 24) // 1 day
-                });
-                await this.cacheService.setAsync(clientId, accessToken);
-                return {
-                    accessToken,
-                    refreshToken
-                };
-            });
-        });
+        if (!this.authService.validatePassword(body.password, user.password)) {
+            throw new BadRequestException(
+                {invalidField: 'password', message: 'password is incorrect'},
+                'password is incorrect'
+            );
+        }
+
+        const {id, roles} = user;
+
+        const [clientId, accessToken, refreshToken] = await Promise.all([
+            this.authService.signJWT({id}, this.authService.clientIdExpiresIn),
+            this.authService.signJWT({roles}, this.authService.accessTokenExpiresIn),
+            this.authService.signJWT({id}, this.authService.refreshTokenExpiresIn)
+        ]);
+
+        // todo : integrate redis cache with sessions
+        response.cookie('client_id', clientId, this.authService.getCookieOptions());
+        return {
+            accessToken,
+            refreshToken
+        };
     }
 
     @Post('/logout')
     logout(@Res({passthrough: true}) response: Response): boolean {
         try {
-            response.cookie('client_id', '');
+            response.cookie('client_id', '', {expires: new Date()});
+            // todo : delete session from redis
             return true;
         } catch (e) {
             console.log('can not logout user', e);
@@ -84,27 +98,24 @@ export class AuthController {
     }
 
     @Post('/refreshToken')
-    refreshToken(@Body() body: {token: string}): Promise<UnauthorizedException | IRefreshTokenResponse> {
-        return this.authService
-            .validateToken(body.token)
-            .then(() => {
-                const decoded = this.authService.decodeToken(body.token);
-                const userName: string = decoded.userName;
-                return this.userService
-                    .getUserByUserName(userName)
-                    .then((user: SchemaDocument<User>) => {
-                        return this.authService.generateToken({role: user.role}, '15m').then((token: string) => {
-                            return {
-                                token
-                            };
-                        });
-                    })
-                    .catch(() => {
-                        throw new UnauthorizedException('username is invalid');
-                    });
-            })
-            .catch(() => {
-                throw new UnauthorizedException('token is invalid');
-            });
+    @UseGuards(SessionGuard)
+    async refreshToken(@Body() body: IRefreshTokenRequest): Promise<IRefreshTokenResponse | UnauthorizedException> {
+        // verify refreshToken
+        try {
+            await this.authService.verifyJWT(body.token);
+        } catch (e) {
+            throw new UnauthorizedException({message: 'refresh token is invalid'});
+        }
+        const decoded: Pick<User, 'id'> = this.authService.decodeJWT(body.token);
+        const user: SchemaDocument<User> = await this.userService.getUserById(decoded.id, true);
+
+        try {
+            const token = await this.authService.signJWT({roles: user.roles}, this.authService.accessTokenExpiresIn);
+            return {
+                token
+            };
+        } catch (e) {
+            throw new InternalServerErrorException({message: 'Can not generate token'});
+        }
     }
 }

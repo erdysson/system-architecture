@@ -52,7 +52,7 @@ export interface IUser {
   name: string;
   lastName: string;
   userName: string;
-  role: string;
+  roles: string[];
 }
 
 export interface IApiError {

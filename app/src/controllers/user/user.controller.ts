@@ -3,26 +3,34 @@ import {Body, Controller, Get, Param, Post, UseGuards} from '@nestjs/common';
 import {Cookie} from '../../decorators/cookie';
 import {Roles} from '../../decorators/roles';
 import {Role} from '../../enums/role.enum';
-import {AuthGuard} from '../../guards/auth.guard';
 import {RolesGuard} from '../../guards/roles.guard';
+import {RegUser} from '../../interfaces/auth.interface';
 import {SchemaDocument} from '../../interfaces/schema.interface';
 import {User} from '../../schemas/user.schema';
+import {AuthService} from '../../services/auth.service';
 import {CacheService} from '../../services/cache.service';
 import {UserService} from '../../services/user.service';
 
 @Controller('/api/users')
-@UseGuards(AuthGuard)
+@UseGuards(RolesGuard)
 export class UserController {
-    constructor(private readonly cacheService: CacheService, private readonly userService: UserService) {
+    constructor(
+        private readonly cacheService: CacheService,
+        private readonly userService: UserService,
+        private readonly authService: AuthService
+    ) {
         //
+    }
+
+    @Get('/currentUser')
+    async currentUser(@Cookie('client_id') clientId: string): Promise<Omit<User, 'password'>> {
+        const decoded: Pick<User, 'id'> = await this.authService.decodeJWT(clientId);
+        return this.userService.getUserById(decoded.id);
     }
 
     @Get()
     @UseGuards(RolesGuard)
-    @Roles(Role.USER)
-    async getUsers(@Cookie('client_id') clientId: string): Promise<SchemaDocument<User>[]> {
-        const token = await this.cacheService.getAsync(clientId);
-        console.log('access token from client id', token);
+    getUsers(): Promise<SchemaDocument<User>[]> {
         return this.userService.getUsers();
     }
 
@@ -34,16 +42,15 @@ export class UserController {
     @Post('/delete')
     @UseGuards(RolesGuard)
     @Roles(Role.ADMIN, Role.SUPER_ADMIN)
-    deleteUser(@Body() body: {id: string}): Promise<boolean> {
+    deleteUser(@Body() body: Pick<User, 'id'>): Promise<boolean> {
         return this.userService
             .deleteUser(body.id)
             .then(() => true)
             .catch(() => false);
     }
 
-    // todo : fix all return false calls and throw appropriate error
     @Post('/edit')
-    editUser(@Body() body: Partial<User>): Promise<boolean> {
+    editUser(@Body() body: Partial<RegUser>): Promise<boolean> {
         return this.userService
             .editUser(body)
             .then(() => true)

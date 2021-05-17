@@ -4,6 +4,10 @@
 - check mongo error mapper
 - add createdAt, modifiedAt and lastLogin fields to the db entries
 - validate request body params
+- password change logic
+- subresource integrity for cdn
+
+
 
 - switch from jenkins to github api
 - move all eslint and resource stuff to the root

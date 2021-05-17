@@ -6,8 +6,8 @@ import {MongooseModule} from '@nestjs/mongoose';
 
 import {AuthController} from './controllers/auth/auth.controller';
 import {UserController} from './controllers/user/user.controller';
-import {AuthGuard} from './guards/auth.guard';
 import {RolesGuard} from './guards/roles.guard';
+import {SessionGuard} from './guards/session.guard';
 import {User, UserSchema} from './schemas/user.schema';
 import {AuthService} from './services/auth.service';
 import {CacheService} from './services/cache.service';
@@ -30,6 +30,6 @@ export const nodeEnv = process.env.NODE_ENV || 'development';
         MongooseModule.forRoot(process.env.MONGODB_URL)
     ],
     controllers: [AuthController, UserController],
-    providers: [AuthService, AuthGuard, RolesGuard, CacheService, UserService]
+    providers: [AuthService, SessionGuard, RolesGuard, CacheService, UserService]
 })
 export class AppModule {}
