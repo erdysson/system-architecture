@@ -15,6 +15,9 @@ export interface ILoginPayload {
 export interface IRegistrationPayload {
   name: string;
   lastName: string;
+  // todo : change to enum
+  gender: number;
+  email: string;
   userName: string;
   password: string;
 }

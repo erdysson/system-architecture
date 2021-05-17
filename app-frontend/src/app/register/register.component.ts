@@ -1,5 +1,6 @@
 import {HttpErrorResponse} from '@angular/common/http';
 import {Component, OnDestroy} from '@angular/core';
+import {NgForm} from '@angular/forms';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
@@ -19,6 +20,11 @@ export class RegisterComponent implements OnDestroy {
 
   lastName = '';
 
+  // todo : map to dropdown
+  gender = 0;
+
+  email = '';
+
   userName = '';
 
   password = '';
@@ -34,9 +40,16 @@ export class RegisterComponent implements OnDestroy {
     //
   }
 
-  register(): void {
+  register(regForm: NgForm): void {
     this.error = null;
-    this.authService.register({name: this.name, lastName: this.lastName, userName: this.userName, password: this.password}).pipe(
+    this.authService.register({
+      name: this.name,
+      lastName: this.lastName,
+      gender: this.gender,
+      email: this.email,
+      userName: this.userName,
+      password: this.password
+    }).pipe(
       takeUntil(this.destroy$)
     ).subscribe(() => {
       console.log('registration is successful!');
