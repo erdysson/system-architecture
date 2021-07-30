@@ -20,6 +20,6 @@ export class UserService {
     this.store$.dispatch({
       type: UserActionTypesEnum.getUsers,
       payload: {}
-    })
+    });
   }
 }

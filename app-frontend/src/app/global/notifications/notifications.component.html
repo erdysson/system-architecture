@@ -1,0 +1,7 @@
+<ng-container *ngIf="notificationStack$ | async as notifications"
+              [style.display]="notifications.length === 0">
+  <ng-container *ngFor="let notification of notifications">
+    <app-notification class="{{ notification.type }}"
+                      [notification]="notification"></app-notification>
+  </ng-container>
+</ng-container>

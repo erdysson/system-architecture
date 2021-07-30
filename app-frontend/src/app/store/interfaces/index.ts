@@ -3,8 +3,19 @@ export interface IUserState {
   users: Record<string, IUser>;
 }
 
+export interface INotification {
+  id: string;
+  type: string;
+  text: string;
+}
+
+export interface INotificationState {
+  [key: string]: INotification;
+}
+
 export interface IAppState {
   user: IUserState;
+  notifications: INotificationState;
 }
 
 export interface ILoginPayload {

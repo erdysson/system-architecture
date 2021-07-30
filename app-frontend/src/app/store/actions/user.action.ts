@@ -23,4 +23,4 @@ export const UserActions = {
   editUser: createAction(UserActionTypesEnum.editUser, props<IPayload<Omit<IUser, 'id'>>>()),
   editUserSuccess: createAction(UserActionTypesEnum.editUserSuccess, props<IPayload<IUser>>()),
   editUserFailure: createAction(UserActionTypesEnum.editUserFailure, props<IPayload<IApiError>>()),
-}
+};

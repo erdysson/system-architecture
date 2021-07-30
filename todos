@@ -1,3 +1,5 @@
+- add interceptor to FE for toast
+
 - add missing interfaces and ui elements in fe
 - add mongo validations to the fields
 - check mongo validation error mapper
@@ -16,7 +18,6 @@
 - implement admin end points
 - implement admin frontend
 
-- generate jwt certs on run
 - create config files for everything generated like token config and etc
 - implement toast for errors
 

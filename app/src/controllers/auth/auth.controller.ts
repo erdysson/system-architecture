@@ -97,8 +97,8 @@ export class AuthController {
         } catch (e) {
             throw new UnauthorizedException({message: 'refresh token is invalid'});
         }
-        const decoded: Pick<User, 'id'> = this.authService.decodeJWT(body.token);
-        const user: SchemaDocument<User> = await this.userService.getUserById(decoded.id, true);
+        const decoded: Pick<User, 'userName'> = this.authService.decodeJWT(body.token);
+        const user: SchemaDocument<User> = await this.userService.getUserByUserName(decoded.userName, true);
 
         try {
             const token = await this.authService.signJWT({roles: user.roles}, this.authService.accessTokenExpiresIn);
