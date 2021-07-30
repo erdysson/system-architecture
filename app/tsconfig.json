@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ES2017",
     "module": "CommonJS",
-    "lib": ["ESNext"],
+    "lib": ["ESNext", "DOM"],
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
