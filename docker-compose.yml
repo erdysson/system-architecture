@@ -4,12 +4,12 @@ services:
     image: redis
     container_name: "redis-cache-container"
     expose:
-      - 6379
+      - "6379"
   mongodb:
     image: mongo
     container_name: "mongodb-container"
     expose:
-      - 27017
+      - "27017"
   nest-app:
     build: ./app
     container_name: "nest-app-container"
@@ -20,18 +20,18 @@ services:
       - mongodb
       - redis-cache
     expose:
-      - 3000
+      - "3000"
   angular-app:
     build: ./app-frontend
     container_name: "angular-app-container"
     expose:
-      - 4200
+      - "4200"
   nginx-proxy:
     build: ./nginx
     container_name: "nginx-proxy-container"
     ports:
-      - 80:80
-      - 443:443
+      - "80:80"
+      - "443:443"
     depends_on:
       - nest-app
       - angular-app

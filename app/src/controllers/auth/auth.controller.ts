@@ -24,16 +24,11 @@ import {
 import {SchemaDocument} from '../../interfaces/schema.interface';
 import {User} from '../../schemas/user.schema';
 import {AuthService} from '../../services/auth.service';
-import {CacheService} from '../../services/cache.service';
 import {UserService} from '../../services/user.service';
 
 @Controller('/auth')
 export class AuthController {
-    constructor(
-        private readonly authService: AuthService,
-        private readonly userService: UserService,
-        private readonly cacheService: CacheService
-    ) {}
+    constructor(private readonly authService: AuthService, private readonly userService: UserService) {}
 
     @Post('/register')
     register(@Body() body: RegUser): Promise<void> {
@@ -69,15 +64,12 @@ export class AuthController {
             );
         }
 
-        const {id, roles} = user;
-
+        const {id, roles, userName} = user;
         const [clientId, accessToken, refreshToken] = await Promise.all([
-            this.authService.signJWT({id}, this.authService.clientIdExpiresIn),
-            this.authService.signJWT({roles}, this.authService.accessTokenExpiresIn),
-            this.authService.signJWT({id}, this.authService.refreshTokenExpiresIn)
+            this.authService.signJWT({id}, '1d'),
+            this.authService.signJWT({roles}, '15m'),
+            this.authService.signJWT({userName}, '1h')
         ]);
-
-        // todo : integrate redis cache with sessions
         response.cookie('client_id', clientId, this.authService.getCookieOptions());
         return {
             accessToken,
@@ -89,7 +81,6 @@ export class AuthController {
     logout(@Res({passthrough: true}) response: Response): boolean {
         try {
             response.cookie('client_id', '', {expires: new Date()});
-            // todo : delete session from redis
             return true;
         } catch (e) {
             console.log('can not logout user', e);

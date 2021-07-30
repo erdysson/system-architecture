@@ -4,19 +4,19 @@ services:
     image: redis
     container_name: "redis-cache-local-container"
     ports:
-      - 6379:6379
+      - "6379:6379"
   mongodb:
     image: mongo
     container_name: "mongodb-local-container"
     volumes:
     - ./data/mongodb:/data/db
     ports:
-      - 27017:27017
+      - "27017:27017"
   nginx-proxy:
     build:
       context: ./nginx
       dockerfile: local.Dockerfile
     container_name: "nginx-proxy-local-container"
     ports:
-      - 80:80
-      - 443:443
+      - "80:80"
+      - "443:443"

@@ -4,6 +4,7 @@ import {Cookie} from '../../decorators/cookie';
 import {Roles} from '../../decorators/roles';
 import {Role} from '../../enums/role.enum';
 import {RolesGuard} from '../../guards/roles.guard';
+import {SessionGuard} from '../../guards/session.guard';
 import {RegUser} from '../../interfaces/auth.interface';
 import {SchemaDocument} from '../../interfaces/schema.interface';
 import {User} from '../../schemas/user.schema';
@@ -12,7 +13,7 @@ import {CacheService} from '../../services/cache.service';
 import {UserService} from '../../services/user.service';
 
 @Controller('/api/users')
-@UseGuards(RolesGuard)
+@UseGuards(SessionGuard)
 export class UserController {
     constructor(
         private readonly cacheService: CacheService,
@@ -30,6 +31,7 @@ export class UserController {
 
     @Get()
     @UseGuards(RolesGuard)
+    // @Roles(Role.ADMIN, Role.SUPER_ADMIN)
     getUsers(): Promise<SchemaDocument<User>[]> {
         return this.userService.getUsers();
     }
@@ -50,6 +52,7 @@ export class UserController {
     }
 
     @Post('/edit')
+    @Roles(Role.ADMIN, Role.SUPER_ADMIN)
     editUser(@Body() body: Partial<RegUser>): Promise<boolean> {
         return this.userService
             .editUser(body)

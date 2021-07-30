@@ -1,13 +1,10 @@
-- integrate it with redis
 - add missing interfaces and ui elements in fe
 - add mongo validations to the fields
-- check mongo error mapper
+- check mongo validation error mapper
 - add createdAt, modifiedAt and lastLogin fields to the db entries
 - validate request body params
 - password change logic
 - subresource integrity for cdn
-
-
 
 - switch from jenkins to github api
 - move all eslint and resource stuff to the root
@@ -27,3 +24,7 @@ TODO :: Learn In Depth
 - kubernetes
 - nginx
 - mongodb
+
+Later
+
+- integrate it with redis
