@@ -1,4 +1,4 @@
-- add interceptor to FE for toast
+- move to git actions
 
 - add missing interfaces and ui elements in fe
 - add mongo validations to the fields
@@ -8,7 +8,6 @@
 - password change logic
 - subresource integrity for cdn
 
-- switch from jenkins to github api
 - move all eslint and resource stuff to the root
 - use eslint in angular
 - check swagger

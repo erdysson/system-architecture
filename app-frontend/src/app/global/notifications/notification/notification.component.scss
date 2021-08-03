@@ -1,22 +1,21 @@
 :host-context(.success) {
-  border: solid 2px rgba(0, 255, 0, .1);
-  // color: rgba(0, 255, 0, .1);
-  color: white;
-  background-color: rgba(0, 255, 0, .5);
+  border: solid 2px rgba(30, 130, 76, 1);
+  color: rgba(30, 130, 76, 1);
+  background-color: rgba(123, 239, 178, 1);
 }
 
 :host-context(.error) {
-  border: solid 1px rgba(255, 0, 0, .1);
-  // color: rgba(255, 0, 0, .1);
-  color: white;
-  background-color: rgba(255, 0, 0, .5);
+  border: solid 2px rgba(150, 40, 27, 1);
+  color: rgba(150, 40, 27, 1);
+  background-color: rgba(207, 0, 15, 1);
 }
 
 :host {
   align-items: center;
-  border-radius: 3px;
+  border-radius: 4px;
   display: flex;
   justify-content: center;
   padding: 10px;
   font-size: 14px;
+  margin: 4px 0;
 }

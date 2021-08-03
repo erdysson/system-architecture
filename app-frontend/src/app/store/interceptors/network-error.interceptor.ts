@@ -14,13 +14,7 @@ export class NetworkErrorInterceptor implements HttpInterceptor {
       tap((event) => {
         if (event instanceof HttpResponse) {
           const status: number = (event as HttpResponse<any>).status;
-          if (status >= 200 && status < 300) {
-            this.notificationService.addNotification({
-              id: Date.now().toString(),
-              text: 'Request is successful',
-              type: 'success'
-            });
-          } else if (status >= 400) {
+          if (status >= 400) {
             this.notificationService.addNotification({
               id: Date.now().toString(),
               text: 'Request Failed',
